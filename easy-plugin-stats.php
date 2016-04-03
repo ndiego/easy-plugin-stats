@@ -88,18 +88,24 @@ function eps_shortcode( $atts ) {
 	
 	// Get the plugin data if it has already been stored as a transient
 	$plugin_data = get_transient( 'eps_' . esc_attr( $atts['slug'] ) );
-	
+		
 	// If there is no transient, get the plugin data from wp.org
 	if ( ! $plugin_data ) {
 
-		$response = wp_remote_get( 'http://api.wordpress.org/plugins/info/1.0/' . $atts['slug'] . '.json?fields=active_installs' );
+		$response = wp_remote_get( 'http://api.wordpress.org/plugins/info/1.0/' . esc_attr( $atts['slug'] ) . '.json?fields=active_installs' );
 		
 		if ( is_wp_error( $response ) ) {
 			return;
 		} else {
 			$plugin_data = (array) json_decode( wp_remote_retrieve_body( $response ) );
-			$cache_time  = is_int( $atts['cache_time'] ) ? $atts['cache_time'] : 60; 
-			set_transient( 'eps_' . esc_attr( $atts['slug'] ), $plugin_data, $cache_time );
+			
+			// If someone typed in the plugin slug incorrectly, the body will return null
+			if ( ! empty( $plugin_data ) ) {
+				$cache_time  = is_int( $atts['cache_time'] ) ? $atts['cache_time'] : 60; 
+				set_transient( 'eps_' . esc_attr( $atts['slug'] ), $plugin_data, $cache_time );
+			} else {
+				return;
+			}
 		}
 	}
 	
