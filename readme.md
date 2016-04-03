@@ -44,7 +44,9 @@ If you have questions or would like to request additional features please let me
 
 If you are looking for download charts/graphs, rating graphic breakdowns, etc. you will be disappointed. With the exception of the Star Rating option, this plugin basically just returns the raw data from the WordPress.org API. Styling is up to you. 
 
-This plugin is also not currently translation ready, but the upcoming version 1.1.0 will be...
+#### To-Do List
+* Make plugin translation ready
+* Add formatting support for numbers and dates (i.e download count, active installs, date added, etc.)
 
 #### Support This Plugin
 
