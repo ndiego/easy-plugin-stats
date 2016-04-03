@@ -47,6 +47,7 @@ You can display any of the fields returned by the WordPress.org plugins API, as 
 * Change Log
 * FAQ
 * Download Link
+* Support Link
 * Tags
 * Donate Link
 
@@ -102,7 +103,6 @@ The available stat fields are:
 * contributors *(Contributors)*
 * requires *(Requires)*
 * tested *(Tested)*
-* compatibility *(Compatibility)*
 * rating *(Rating out of 100)*
 * five_rating *(Rating out of 5)*
 * star_rating *(Star Rating)*
@@ -119,10 +119,11 @@ The available stat fields are:
 * changelog *(Change Log)*
 * faq *(FAQ)*
 * download_link *(Download Link)*
+* support_link *(Support Link)*
 * tags *(Tags)*
 * donate_link (Donate Link)*
 
-If you have questions or would like to request additional features please let me know in the plugin support forum.
+If you have questions or would like to request additional features please let me know in the plugin [support forum](https://wordpress.org/support/plugin/easy-plugin-stats).
 
 == Screenshots ==
 

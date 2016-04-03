@@ -9,7 +9,7 @@
 	
 			editor.addButton( 'eps_button', {
 				type: 'button',
-				title: 'Plugin Stats',
+				title: 'Easy Plugin Stats',
 				icon: 'dashicons-admin-plugins',
 				onclick: function() { 
 					editor.windowManager.open({

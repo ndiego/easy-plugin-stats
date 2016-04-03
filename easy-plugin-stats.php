@@ -58,7 +58,7 @@ function eps_shortcode( $atts ) {
 		'contributors',
 		'requires',
 		'tested',
-		'compatibility',
+		//'compatibility',
 		'rating',
 		'five_rating',
 		'star_rating',
@@ -76,6 +76,7 @@ function eps_shortcode( $atts ) {
 		'faq',
 		'short_description',
 		'download_link',
+		'support_link',
 		'tags',
 		'donate_link',
 	);
@@ -168,23 +169,27 @@ function eps_shortcode( $atts ) {
 			break;
 		case 'description':
 			$sections = (array) $plugin_data['sections'];
-			$output = wp_kses_post( $sections['description'] );
+			$output   = $sections['description'];
 			break;
 		case 'installation':
 			$sections = (array) $plugin_data['sections'];
-			$output = wp_kses_post( $sections['installation'] );
+			$output   = $sections['installation'];
 			break;
 		case 'screenshots':
 			$sections = (array) $plugin_data['sections'];
-			$output = wp_kses_post( $sections['screenshots'] );
+			$output   = $sections['screenshots'];
 			break;
 		case 'changelog':
 			$sections = (array) $plugin_data['sections'];
-			$output = wp_kses_post( $sections['changelog'] );
+			$output   = $sections['changelog'];
 			break;
 		case 'faq':
 			$sections = (array) $plugin_data['sections'];
-			$output = wp_kses_post( $sections['faq'] );
+			$output   = $sections['faq'];
+			break;
+		case 'support_link':
+			$slug = $plugin_data[ 'slug' ];
+			$output = 'https://wordpress.org/support/plugin/' . $slug;
 			break;
 		case 'tags':
 			$tags = (array) $plugin_data[ 'tags' ];
@@ -194,7 +199,7 @@ function eps_shortcode( $atts ) {
 			}
 			break;
 		default:
-			$output = wp_kses_post( $plugin_data[$atts['field']] );
+			$output = $plugin_data[$atts['field']];
 	}
 	
 	$final_output = html_entity_decode( $atts['before'] ) . $output . html_entity_decode( $atts['after'] );
