@@ -12,7 +12,7 @@ Easily display stats about a plugin that resides in the WordPress.org repository
 
 == Description ==
 
-**Disclaimer:** This plugin is geared towards developers with plugins in the WordPress.org repository and anyone else that wants to easily display information about a plugin that is in the respiratory. Don't fit this criteria? Then this plugin will probably not be of much use to you. 
+**Disclaimer:** This plugin is geared towards developers with plugins in the WordPress.org repository and anyone else that wants to easily display information about a plugin that is in the repository. Don't fit this criteria? Then this plugin will probably not be of much use to you. 
 
 This plugin was designed to be as simple as possible, while still being very powerful. There is no settings page, just one shortcode and TinyMCE shortcode interface to help you generate codes on the fly. Check out the video below for a quick overview.  
 
