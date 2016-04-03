@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Easy Plugin Stats - Nick Diego</title>
+		
+	<script language="javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script language="javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+	<link href='//fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="css/popup.css" />
+	
+	<script type="text/javascript">	
+		
+		// Show/Hide help text when (?) is clicked
+		var helpIcon = window.helpIcon = {
+		
+			toggleHelp : function( el ) {
+				jQuery( el ).parent().siblings( '.help-text' ).slideToggle( 'fast' );
+				return false;
+			}
+		}
+		
+		function escapeHtml(str) {
+			var div = document.createElement('div');
+			div.appendChild(document.createTextNode(str));
+			return div.innerHTML;
+		};
+		
+		// Create our columns dialog box variable
+		var PluginStats = {
+	
+			insert : function() {
+		 		
+		 		// Get the selected content, if there is any
+		 		var selectedContent = top.tinymce.activeEditor.windowManager.getParams().selectedContent;
+				
+				// Set up variable to contain our layout input value
+				var slug = jQuery('#slug').val(); 
+				var field = jQuery('#field').val(); 
+				
+				var before_html = jQuery('#before_html').val();
+				var after_html  = jQuery('#after_html').val();
+				var cache_time  = jQuery('#cache_time').val();
+				
+				// Test to make sure cache time is a number, an integer and greater than 5
+				if ( cache_time % 1 === 0 && cache_time >= 5 ) {
+					cache_time = cache_time;
+				} else {
+					cache_time = '';
+				}
+		 
+				// Set up output variable
+				var output = '';
+				
+				output += '[eps slug="' + slug + '" field="' + field + '" ';
+				
+				// For before and after html we need to encode the html and then remove all double quotes so that the shortcode will work
+				output += before_html == '' ? '' : ( 'before="' + escapeHtml( before_html.replace(/"/g, "'") ) + '" ' );
+				output += after_html == '' ? '' : ( 'after="' + escapeHtml( after_html.replace(/"/g, "'") ) + '" ' );
+				
+				output += cache_time == '' ? '' : ( 'cache_time="' + cache_time + '" ' );
+				output += ']';
+				
+				
+				// Insert the plugin stats shortcode into tinymce
+				top.tinymce.activeEditor.windowManager.getParams().onInsert( output );
+		
+				// Close the window once we have added the output to tinymce
+				top.tinymce.activeEditor.windowManager.close();
+			},
+			
+			cancel : function() {
+				// Close the window since the cancel button has been clicked
+				top.tinymce.activeEditor.windowManager.close();
+			}
+		};
+	
+	</script>
+	
+</head>
+<body>
+	
+	<form action="/" method="get" accept-charset="utf-8">
+		<div class="container">
+			<div class="main-container">
+				<div class="option">
+					<span class="label">Plugin Slug</span>
+					<span class="help-text-icon">
+						<a href="#" class="dashicons dashicons-editor-help" onclick="helpIcon.toggleHelp(this);return false;"></a>
+					</span>
+					<div class="help-text">
+						Enter your plugin's slug. It can be found by looking at the plugin homepage url on WordPress.org.				
+					</div>
+					<input type="text" id="slug" value="">
+				</div>
+				<div class="option">
+					<span class="label">Stat Field</span>
+					<span class="help-text-icon">
+						<a href="#" class="dashicons dashicons-editor-help" onclick="helpIcon.toggleHelp(this);return false;"></a>
+					</span>
+					<div class="help-text">
+						Choose the stat fields you wish to display.				
+					</div>
+					<select id="field">
+						<option value="name">Plugin Name</option>
+						<option value="slug">Plugin Slug</option>
+						<option value="version">Version</option>
+						<option value="author">Author</option>
+						<option value="author_profile">Author Profile Link</option>
+						<option value="contributors">Contributors</option>
+						<option value="requires">Requires</option>
+						<option value="tested">Tested</option>
+						<option value="compatibility">Compatibility</option>
+						<option value="rating">Rating out of 100</option>
+						<option value="five_rating">Rating out of 5</option>
+						<option value="star_rating">Star Rating</option>
+						<option value="num_ratings">Number of Reviews</option>
+						<!--<option value="ratings">Ratings</option>-->
+						<option value="active_installs">Active Installs</option>
+						<option value="downloaded">Times Downloaded</option>
+						<option value="last_updated">Last Updated</option>
+						<option value="added">Date Added</option>
+						<option value="homepage">Plugin Homepage Link</option>
+						<option value="short_description">Short Description</option>
+						<option value="description">Description</option>
+						<option value="installation">Installation</option>
+						<option value="screenshots">Screenshots</option>
+						<option value="changelog">Change Log</option>
+						<option value="faq">FAQ</option>
+						<option value="download_link">Download Link</option>
+						<option value="tags">Tags</option>
+						<option value="donate_link">Donate Link</option>
+					</select>
+				</div>
+			</div> <!-- .main-options-container -->
+			<div class="advanced-options-container">
+				<div class="option">
+					<span class="label">Before HTML</span>
+					<span class="help-text-icon">
+						<a href="#" class="dashicons dashicons-editor-help" onclick="helpIcon.toggleHelp(this);return false;"></a>
+					</span>
+					<span class="optional">optional</span>
+					<div class="help-text">
+						Outputs directly before the field content. Accepts valid HTML. Note that double quotes (i.e. ") will be replaced with single quotes. Otherwise the shortcode will not work properly.
+					</div>
+					<textarea id="before_html" rows="2"></textarea>
+				</div>
+				<div class="option">
+					<span class="label">After HTML</span>
+					<span class="help-text-icon">
+						<a href="#" class="dashicons dashicons-editor-help" onclick="helpIcon.toggleHelp(this);return false;"></a>
+					</span>
+					<span class="optional">optional</span>
+					<div class="help-text">
+						Outputs directly after the field content. Accepts valid HTML. Note that double quotes (i.e. ") will be replaced with single quotes. Otherwise the shortcode will not work properly.
+					</div>
+					<textarea id="after_html" rows="2"></textarea>
+				</div>
+				<div class="option">
+					<span class="label">Cache Time</span>
+					<span class="help-text-icon">
+						<a href="#" class="dashicons dashicons-editor-help" onclick="helpIcon.toggleHelp(this);return false;"></a>
+					</span>
+					<span class="optional">optional</span>
+					<div class="help-text">
+						The shortcode requests your plugin's stats from WordPress.org. To limit the number of requests made, response data is cached for 60 seconds by default. Adjust this cache time as you see fit, but it must be greater than 5 seconds.				
+					</div>
+					<div><input type="text" id="cache_time" value="" placeholder="60" class="small"> Seconds </div> 
+				</div>
+			</div> <!-- .advanced-options-container -->
+		</div> <!-- .container -->
+	
+		<div class="footer">
+			<div class="cancel-container">
+				<a href="javascript:PluginStats.cancel()" id="cancel">Cancel</a> 
+			</div>
+			<a href="javascript:PluginStats.insert()" id="insert">Insert Shortcode</a> 
+		</div>
+	</form>
+
+</body>
+</html>
