@@ -1,16 +1,4 @@
-=== Easy Plugin Stats ===
-Contributors: ndiego, outermostdesign
-Donate Link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5BQQ26BHVMEYW
-Tags: plugin, stats, statistics, wordpress.org, active installs, developer, download, rating, wordpress
-Requires at least: 3.6
-Tested up to: 4.4.2
-Stable tag: 1.0.0
-License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
-
-Easily display stats about a plugin that resides in the WordPress.org repository. 
-
-== Description ==
+## Welcome to Easy Plugin Stats
 
 **Disclaimer:** This plugin is geared towards developers with plugins in the WordPress.org repository and anyone else that wants to easily display information about a plugin that is in the respiratory. Don't fit this criteria? Then this plugin will probably not be of much use to you. 
 
@@ -18,7 +6,7 @@ This plugin was designed to be as simple as possible, while still being very pow
 
 https://www.youtube.com/watch?v=jzK7ZQ-0z4g
 
-= Available Fields =
+### Available Fields
 
 You can display any of the fields returned by the WordPress.org plugins API, as well as a few extra options. There are currently 27 options.
 
@@ -52,13 +40,13 @@ You can display any of the fields returned by the WordPress.org plugins API, as 
 
 If you have questions or would like to request additional features please let me know in the plugin support forum.
 
-= What Easy Plugin Stats Doesn’t Do =
+#### What Easy Plugin Stats Doesn’t Do
 
 If you are looking for download charts/graphs, rating graphic breakdowns, etc. you will be disappointed. With the exception of the Star Rating option, this plugin basically just returns the raw data from the WordPress.org API. Styling is up to you. 
 
 This plugin is also not currently translation ready, but the upcoming version 1.1.0 will be...
 
-= Support This Plugin = 
+#### Support This Plugin
 
 There are a few ways you can help support the development of this plugin:
 
@@ -66,7 +54,7 @@ There are a few ways you can help support the development of this plugin:
 1. [Donate](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5BQQ26BHVMEYW). Time is money, and contributions from users like you really help us dedicate more hours to the continual development and support of this plugin.
 
 
-== Installation ==
+## Installation
 
 1. You have a couple options:
 	* Go to Plugins->Add New and search for "Easy Plugin Stats”. Once found, click "Install".
@@ -76,9 +64,9 @@ There are a few ways you can help support the development of this plugin:
 4. If you have any implementation questions, please post in the plugin support forum.
 
 
-== Frequently Asked Questions ==
+## Frequently Asked Questions
 
-= How does the Easy Plugin Stats shortcode work? = 
+#### How does the Easy Plugin Stats shortcode work? 
 
 The empty Easy Plugin Stats shortcode looks like:
 
@@ -124,14 +112,7 @@ The available stat fields are:
 
 If you have questions or would like to request additional features please let me know in the plugin support forum.
 
-== Screenshots ==
+## Changelog
 
-1. A screenshot of the Easy Plugin Stats button in editor and some sample shortcodes. 
-2. A screenshot of the Easy Plugin Stats popup which helps you generate shortcodes on the fly.
-3. A screenshot of the frontend, which shows the output of the sample shortcodes in the first screenshot.
-
-== Changelog ==
-
-= 1.0.0 =
+#### 1.0.0
 * Initial Release
-

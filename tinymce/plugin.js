@@ -13,7 +13,7 @@
 				icon: 'dashicons-admin-plugins',
 				onclick: function() { 
 					editor.windowManager.open({
-						title: 'WP Plugin Stats',
+						title: 'Easy Plugin Stats',
 						url: url + '/popup.html', 
 						width: 550,
 						height: 485,

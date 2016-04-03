@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Easy Plugin Stats
- * Plugin URI:  https://www.nickdiego.com/wp-plugin-theme-stats
+ * Plugin URI:  https://www.nickdiego.com/plugins/easy-plugin-stats
  * Description: Easily display stats from plugins hosted on WordPress.org
  * Author:      Nick Diego
  * Author URI:  http://www.nickdiego.com
@@ -197,7 +197,9 @@ function eps_shortcode( $atts ) {
 			$output = wp_kses_post( $plugin_data[$atts['field']] );
 	}
 	
-	return wp_kses_post( html_entity_decode( $atts['before'] ) ) . $output . wp_kses_post( html_entity_decode( $atts['after'] ) );
+	$final_output = html_entity_decode( $atts['before'] ) . $output . html_entity_decode( $atts['after'] );
+	
+	return wp_kses_post( $final_output );
 }
 
 add_action('admin_head', 'eps_mce_button');
@@ -251,17 +253,4 @@ add_action( 'wp_enqueue_scripts', 'eps_scripts' );
  */
 function eps_scripts() {
 	wp_enqueue_style( 'dashicons' );
-}
-
-add_filter( 'the_content', 'eps_shortcode_empty_paragraph_fix' );
-/**
- * Filters the content to remove any extra paragraph or break tags caused by shortcodes.
- */
-function eps_shortcode_empty_paragraph_fix( $content ) {
-    $array = array(
-        '<p>['    => '[',
-        ']</p>'   => ']',
-        ']<br />' => ']'
-    );
-    return strtr( $content, $array );
 }
