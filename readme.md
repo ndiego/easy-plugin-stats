@@ -4,12 +4,14 @@
 
 This plugin was designed to be as simple as possible, while still being very powerful. There is no settings page, just one shortcode and TinyMCE shortcode interface to help you generate codes on the fly. Check out the video below for a quick overview.  
 
-https://www.youtube.com/watch?v=jzK7ZQ-0z4g
+
 
 ### Available Fields
 
 You can display any of the fields returned by the WordPress.org plugins API, as well as a few extra options. There are currently 27 options.
 
+* Active Installs
+* Times Downloaded
 * Plugin Name
 * Plugin Slug
 * Version
@@ -22,8 +24,6 @@ You can display any of the fields returned by the WordPress.org plugins API, as 
 * Rating out of 5
 * Star Rating
 * Number of Reviews
-* Active Installs
-* Times Downloaded
 * Last Updated
 * Date Added
 * Plugin Homepage Link
@@ -38,20 +38,22 @@ You can display any of the fields returned by the WordPress.org plugins API, as 
 * Tags
 * Donate Link
 
+You can also display aggregate stats from multiple plugins. There are currently two supported aggregate fields.
+
+* Active Installs
+* Times Downloaded
+
 If you have questions or would like to request additional features please let me know in the plugin support forum.
 
 #### What Easy Plugin Stats Doesn’t Do
 
 If you are looking for download charts/graphs, rating graphic breakdowns, etc. you will be disappointed. With the exception of the Star Rating option, this plugin basically just returns the raw data from the WordPress.org API. Styling is up to you. 
 
-#### To-Do List
-* Make plugin translation ready
-* Add formatting support for numbers and dates (i.e download count, active installs, date added, etc.)
-
 #### Support This Plugin
 
 There are a few ways you can help support the development of this plugin:
 
+1. Rate this plugin on WordPress.org. 
 1. If you spot an error or bug, please let us know in the support forums. The issue will be diagnosed an a new release push out as soon as possible.
 1. [Donate](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5BQQ26BHVMEYW). Time is money, and contributions from users like you really help us dedicate more hours to the continual development and support of this plugin.
 
@@ -74,11 +76,11 @@ The empty Easy Plugin Stats shortcode looks like:
 
 [eps slug="" field="" before="" after="" cache_time=""]
 
-* **Slug:** *Required.* This is the plugin slug which can be retrieved from the plugin url on WordPress.org. For example, this plugin's slus is easy-plugin-stats
+* **Slug:** *Required.* This is the plugin slug which can be retrieved from the plugin url on WordPress.org. For example, this plugin's slug is easy-plugin-stats
 * **Field:** *Required.* The name of the field you have chosen to display. 
 * **Before:** *Optional, defaults to null.* HTML to be printed before the field's output.
 * **After:** *Optional, defaults to null.* HTML to be printed after the field's output.
-* **Cache Time:** *Optional, defaults to 60 seconds.* The shortcode requests your plugin's stats from WordPress.org. To limit the number of requests made, response data is cached for 60 seconds by default. Adjust this cache time as you see fit, but it must be greater than 5 seconds.
+* **Cache Time:** *Optional, defaults to 12 hours.* The shortcode requests your plugin's stats from WordPress.org. To limit the number of requests made, response data is cached for 60 seconds by default. Adjust this cache time as you see fit, but it must be greater than 5 seconds.
 
 Either use the plugin shortcode interface, or you can manually type the shortcode into any area of your website that support shortcodes such as the editor, text widget, etc. 
 

@@ -1,14 +1,14 @@
 === Easy Plugin Stats ===
 Contributors: ndiego, outermostdesign
 Donate Link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5BQQ26BHVMEYW
-Tags: plugin, stats, statistics, wordpress.org, active installs, developer, download, rating, wordpress
+Tags: plugin, stats, statistics, wordpress.org, active installs, developer, download, download count, rating, wordpress, shortcode
 Requires at least: 3.6
-Tested up to: 4.4.2
+Tested up to: 4.5.3
 Stable tag: 1.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Easily display stats about a plugin that resides in the WordPress.org repository. 
+Easily display stats about plugins that reside in the WordPress.org repository. 
 
 == Description ==
 
@@ -22,6 +22,8 @@ https://www.youtube.com/watch?v=jzK7ZQ-0z4g
 
 You can display any of the fields returned by the WordPress.org plugins API, as well as a few extra options. There are currently 27 options.
 
+* Active Installs
+* Times Downloaded
 * Plugin Name
 * Plugin Slug
 * Version
@@ -35,8 +37,6 @@ You can display any of the fields returned by the WordPress.org plugins API, as 
 * Rating out of 5
 * Star Rating
 * Number of Reviews
-* Active Installs
-* Times Downloaded
 * Last Updated
 * Date Added
 * Plugin Homepage Link
@@ -51,15 +51,16 @@ You can display any of the fields returned by the WordPress.org plugins API, as 
 * Tags
 * Donate Link
 
+You can also display aggregate stats from multiple plugins. There are currently two supported aggregate fields.
+
+* Active Installs
+* Times Downloaded
+
 If you have questions or would like to request additional features please let me know in the plugin support forum.
 
 = What Easy Plugin Stats Doesn’t Do =
 
 If you are looking for download charts/graphs, rating graphic breakdowns, etc. you will be disappointed. With the exception of the Star Rating option, this plugin basically just returns the raw data from the WordPress.org API. Styling is up to you. 
-
-= To-Do List =
-* Make plugin translation ready
-* Add formatting support for numbers and dates (i.e download count, active installs, date added, etc.)
 
 = Support This Plugin = 
 
@@ -81,19 +82,28 @@ There are a few ways you can help support the development of this plugin:
 
 == Frequently Asked Questions ==
 
-= How does the Easy Plugin Stats shortcode work? = 
+= How do I add a plugin stat shordcode? = 
 
-The empty Easy Plugin Stats shortcode looks like:
+**Standard Method**
 
-[eps slug="" field="" before="" after="" cache_time=""]
+The easiest way is to click the new plugin stat icon that is added to the top bar of your editor. It looks like the startard WordPress plugin icon. This will launch a popup window where you can then choose your settings and enter in the desired plugin slug(s). Click insert, and the generated shortcode will be added to your editor's content field. 
 
+**Manual Method**
+
+If you don't want to bother with the popup window, or what to use the shortcode outside the editor, you can manually type out the shortcode. Below is the shortcode structure.
+
+`
+[eps type="" slug="" field="" cache="" before="" after=""]
+`
+
+* **Type:** *Required, defaults to single* The type of stat you with to display, either a stat from a single plugin or an aggregate stat generated from multiple plugins. 
 * **Slug:** *Required.* This is the plugin slug which can be retrieved from the plugin url on WordPress.org. For example, this plugin's slus is easy-plugin-stats
-* **Field:** *Required.* The name of the field you have chosen to display. 
+* **Field:** *Required, defaults to active_installs* The name of the field you have chosen to display.
+* **Cache:** *Optional, defaults to 12 hours.* The shortcode requests your plugin's stats from WordPress.org. To limit the number of requests made, response data is cached for 12 hours (or 43200 seconds) by default. Adjust this cache time as you see fit, but it must be greater than 5 seconds.
 * **Before:** *Optional, defaults to null.* HTML to be printed before the field's output.
 * **After:** *Optional, defaults to null.* HTML to be printed after the field's output.
-* **Cache Time:** *Optional, defaults to 60 seconds.* The shortcode requests your plugin's stats from WordPress.org. To limit the number of requests made, response data is cached for 60 seconds by default. Adjust this cache time as you see fit, but it must be greater than 5 seconds.
 
-Either use the plugin shortcode interface, or you can manually type the shortcode into any area of your website that support shortcodes such as the editor, text widget, etc. 
+ 
 
 The available stat fields are:
 
@@ -123,7 +133,7 @@ The available stat fields are:
 * download_link *(Download Link)*
 * support_link *(Support Link)*
 * tags *(Tags)*
-* donate_link (Donate Link)*
+* donate_link *(Donate Link)*
 
 If you have questions or would like to request additional features please let me know in the plugin [support forum](https://wordpress.org/support/plugin/easy-plugin-stats).
 
