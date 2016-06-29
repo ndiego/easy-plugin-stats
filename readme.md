@@ -69,22 +69,34 @@ There are a few ways you can help support the development of this plugin:
 
 ## Frequently Asked Questions
 
-#### How does the Easy Plugin Stats shortcode work? 
+#### How do I add a plugin stat shordcode?
 
-The empty Easy Plugin Stats shortcode looks like:
+**Standard Method**
 
-[eps slug="" field="" before="" after="" cache_time=""]
+The easiest way is to click the new plugin stat icon that is added to the top bar of your WordPress editor. It looks like the standard WordPress plugin icon. This will launch a popup window where you can then choose your settings and enter in the desired plugin slug(s). Click insert, and the generated shortcode will be added to your editor's content field. 
 
-* **Slug:** *Required.* This is the plugin slug which can be retrieved from the plugin url on WordPress.org. For example, this plugin's slug is easy-plugin-stats
-* **Field:** *Required.* The name of the field you have chosen to display. 
-* **Before:** *Optional, defaults to null.* HTML to be printed before the field's output.
-* **After:** *Optional, defaults to null.* HTML to be printed after the field's output.
-* **Cache Time:** *Optional, defaults to 12 hours.* The shortcode requests your plugin's stats from WordPress.org. To limit the number of requests made, response data is cached for 60 seconds by default. Adjust this cache time as you see fit, but it must be greater than 5 seconds.
+**Manual Method**
 
-Either use the plugin shortcode interface, or you can manually type the shortcode into any area of your website that support shortcodes such as the editor, text widget, etc. 
+If you don't want to bother with the popup window, or what to use the shortcode outside the editor, you can manually type out the shortcode. Below is the base shortcode structure with defaults. Technically, "slug" is the only required field. If you just enter your plugin's slug, the shortcode will display the number of active installs and cache the data for 43200 seconds (i.e. 12 hours). 
 
-The available stat fields are:
+[eps type="single" slug="" field="active_installs" cache="43200" before="" after=""]
 
+**type** 
+
+*Optional.* The type of stat you with to display, either a stat from a single plugin or an aggregate stat generated from multiple plugins. Accepts "single" or "aggregate". Defaults to "single".
+
+**slug** 
+
+*Required.* This is the plugin slug which can be retrieved from the plugin url on WordPress.org. For example, this plugin's slug is easy-plugin-stats. Accepts any valid plugin slug for "single", or any number of space-separated plugin slungs when using "aggregate". Defaults to null.
+
+**field** 
+
+*Optional.* The name of the field you have chosen to display. Accepts any of the following field. Defaults to "active_installs".
+
+The available stat fields for "single" are:
+
+* active_installs *(Active Installs)*
+* downloaded *(Times Downloaded)*
 * name *(Plugin Name)*
 * slug *(Plugin Slug)*
 * version *(Version)*
@@ -97,8 +109,6 @@ The available stat fields are:
 * five_rating *(Rating out of 5)*
 * star_rating *(Star Rating)*
 * num_ratings *(Number of Reviews)*
-* active_installs *(Active Installs)*
-* downloaded *(Times Downloaded)*
 * last_updated *(Last Updated)*
 * added *(Date Added)*
 * homepage *(Plugin Homepage Link)*
@@ -111,9 +121,28 @@ The available stat fields are:
 * download_link *(Download Link)*
 * support_link *(Support Link)*
 * tags *(Tags)*
-* donate_link (Donate Link)*
+* donate_link *(Donate Link)*
 
-If you have questions or would like to request additional features please let me know in the plugin support forum.
+The available stat fields for "aggregate" are:
+
+* active_installs *(Active Installs)*
+* downloaded *(Times Downloaded)*
+
+**cache** 
+
+*Optional.* The shortcode requests your plugin's stats from WordPress.org. To limit the number of requests made, response data is cached. This optional setting allows you to adjust the cache time as you see fit. Accepts any positive integer (representing seconds) greater than 5. Defaults to "43200" (i.e. 12 hours).
+
+**before**
+
+*Optional.* Optional HTML to be printed before the field's output. Accepts any valid HTML, but note that all double quotes will be replaced with single quotes to adhere to required shortcode markup. Defaults to null.
+
+**after** 
+
+*Optional.* Optional HTML to be printed after the field's output. Accepts any valid HTML, but note that all double quotes will be replaced with single quotes to adhere to required shortcode markup. Defaults to null.
+
+#### Where do I go to get more help?
+
+If you have additional questions or would like to request additional features please let me know in the plugin [support forum](https://wordpress.org/support/plugin/easy-plugin-stats).
 
 ## Changelog
 
