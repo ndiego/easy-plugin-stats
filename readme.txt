@@ -14,9 +14,9 @@ Easily display stats about plugins that reside in the WordPress.org repository.
 
 **Disclaimer:** This plugin is geared towards developers with plugins in the WordPress.org repository and anyone else that wants to easily display information about a plugin that is in the repository. Don't fit this criteria? Then this plugin will probably not be of much use to you. 
 
-This plugin was designed to be as simple as possible, while still being very powerful. There is no settings page, just one shortcode and TinyMCE shortcode interface to help you generate codes with ease. You can display stats from a single plugin, or aggregate stats from multiple plugins. Check out the video below for a quick overview.  
+This plugin was designed to be as simple as possible, while still being very powerful. There is no settings page, just one shortcode and TinyMCE shortcode interface to help you generate codes with ease. You can display stats from a single plugin, or aggregate stats from multiple plugins. Check out the video below for a quick overview.
 
-https://www.youtube.com/watch?v=jzK7ZQ-0z4g
+https://www.youtube.com/watch?v=zGFIlgcKS-s
 
 = Available Fields =
 
