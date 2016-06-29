@@ -277,10 +277,10 @@ class Easy_Plugin_Stats {
 					}
 				}
 			}
-	
+			
 			$final_output = html_entity_decode( $atts['before'] ) . $this->field_output( $atts, $plugin_data ) . html_entity_decode( $atts['after'] );
 	
-			return wp_kses_post( $final_output );
+			return $final_output;
 		
 		} else if ( $atts['type'] == 'aggregate' ) {
 			
@@ -319,7 +319,9 @@ class Easy_Plugin_Stats {
 				$data[] = $this->field_output( $atts, $plugin_data );
 			}
 	
-			return number_format( array_sum( $data ) );
+			$final_output = html_entity_decode( $atts['before'] ) . number_format( array_sum( $data ) ) . html_entity_decode( $atts['after'] );
+	
+			return $final_output;
 		}
 	}
 	
@@ -336,6 +338,12 @@ class Easy_Plugin_Stats {
 	
 		// Generate the shortcode output, some fields need special handling
 		switch ( $atts['field'] ) {
+			case 'active_installs':
+				$output = ( $atts['type'] == 'single' ) ? number_format( $plugin_data[ 'active_installs' ] ) : $plugin_data[ 'active_installs' ];
+				break;
+			case 'downloaded':
+				$output = ( $atts['type'] == 'single' ) ? number_format( $plugin_data[ 'downloaded' ] ) : $plugin_data[ 'downloaded' ];
+				break;
 			case 'contributors':
 				$contributors = (array) $plugin_data[ 'contributors' ];
 		

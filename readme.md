@@ -2,13 +2,12 @@
 
 **Disclaimer:** This plugin is geared towards developers with plugins in the WordPress.org repository and anyone else that wants to easily display information about a plugin that is in the repository. Don't fit this criteria? Then this plugin will probably not be of much use to you. 
 
-This plugin was designed to be as simple as possible, while still being very powerful. There is no settings page, just one shortcode and TinyMCE shortcode interface to help you generate codes on the fly. Check out the video below for a quick overview.  
-
+This plugin was designed to be as simple as possible, while still being very powerful. There is no settings page, just one shortcode and TinyMCE shortcode interface to help you generate codes with ease. You can display stats from a single plugin, or aggregate stats from multiple plugins. Check out the video below for a quick overview.  
 
 
 ### Available Fields
 
-You can display any of the fields returned by the WordPress.org plugins API, as well as a few extra options. There are currently 27 options.
+You can display any of the fields returned by the WordPress.org plugins API, as well as a few extra options. There are currently 28 options.
 
 * Active Installs
 * Times Downloaded
@@ -53,7 +52,7 @@ If you are looking for download charts/graphs, rating graphic breakdowns, etc. y
 
 There are a few ways you can help support the development of this plugin:
 
-1. Rate this plugin on WordPress.org. 
+1. Rate this plugin on WordPress.org, preferably if you like it :)
 1. If you spot an error or bug, please let us know in the support forums. The issue will be diagnosed an a new release push out as soon as possible.
 1. [Donate](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5BQQ26BHVMEYW). Time is money, and contributions from users like you really help us dedicate more hours to the continual development and support of this plugin.
 
