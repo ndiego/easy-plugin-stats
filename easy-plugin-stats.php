@@ -246,6 +246,19 @@ class Easy_Plugin_Stats {
 				'downloaded'
 			)
 		);
+		
+		
+		// Set the default number format for fields 
+		$number_format = apply_filters( 'eps_number_format', array( 
+			'decimals' => 0, 
+			'dec_point' => '.', 
+			'thousands_sep' => ',' 
+		) );
+		
+		
+		// Set the default date format for fields 
+		$date_format   = apply_filters( 'eps_date_format', 'n/j/Y' );
+		
 	
 		// Return early is an incorrect field is passed
 		if ( ! in_array( $atts['field'], $allowed_fields[ $atts['type'] ] ) ) {
@@ -278,9 +291,9 @@ class Easy_Plugin_Stats {
 				}
 			}
 			
-			$final_output = html_entity_decode( $atts['before'] ) . $this->field_output( $atts, $plugin_data ) . html_entity_decode( $atts['after'] );
+			$output = html_entity_decode( $atts['before'] ) . $this->field_output( $atts, $plugin_data, $number_format, $date_format ) . html_entity_decode( $atts['after'] );
 	
-			return $final_output;
+			return $output;
 		
 		} else if ( $atts['type'] == 'aggregate' ) {
 			
@@ -316,12 +329,12 @@ class Easy_Plugin_Stats {
 					}
 				}
 		
-				$data[] = $this->field_output( $atts, $plugin_data );
+				$data[] = $this->field_output( $atts, $plugin_data, $number_format, $date_format );
 			}
 	
-			$final_output = html_entity_decode( $atts['before'] ) . number_format( array_sum( $data ) ) . html_entity_decode( $atts['after'] );
+			$output = html_entity_decode( $atts['before'] ) . number_format( array_sum( $data ), $number_format['decimals'], $number_format['dec_point'], $number_format['thousands_sep'] ) . html_entity_decode( $atts['after'] );
 	
-			return $final_output;
+			return $output;
 		}
 	}
 	
@@ -334,15 +347,15 @@ class Easy_Plugin_Stats {
 	 * @param array $atts         An array shortcode attributes
 	 * @param array $plugin_data  An array of all retrived plugin data from wp.org
 	 */
-	public function field_output( $atts, $plugin_data ) {
+	public function field_output( $atts, $plugin_data, $number_format, $date_format ) {
 	
 		// Generate the shortcode output, some fields need special handling
 		switch ( $atts['field'] ) {
 			case 'active_installs':
-				$output = ( $atts['type'] == 'single' ) ? number_format( $plugin_data[ 'active_installs' ] ) : $plugin_data[ 'active_installs' ];
+				$output = ( $atts['type'] == 'single' ) ? number_format( $plugin_data[ 'active_installs' ], $number_format['decimals'], $number_format['dec_point'], $number_format['thousands_sep'] ) : $plugin_data[ 'active_installs' ];
 				break;
 			case 'downloaded':
-				$output = ( $atts['type'] == 'single' ) ? number_format( $plugin_data[ 'downloaded' ] ) : $plugin_data[ 'downloaded' ];
+				$output = ( $atts['type'] == 'single' ) ? number_format( $plugin_data[ 'downloaded' ], $number_format['decimals'], $number_format['dec_point'], $number_format['thousands_sep'] ) : $plugin_data[ 'downloaded' ];
 				break;
 			case 'contributors':
 				$contributors = (array) $plugin_data[ 'contributors' ];
@@ -405,6 +418,10 @@ class Easy_Plugin_Stats {
 			
 					$output .= '</span>';
 				}	
+				break;
+			case 'last_updated':
+				$date     = date_create( $plugin_data['last_updated'] );
+				$output   = date_format( $date, $date_format );
 				break;
 			case 'description':
 				$sections = (array) $plugin_data['sections'];
