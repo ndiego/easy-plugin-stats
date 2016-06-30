@@ -257,7 +257,7 @@ class Easy_Plugin_Stats {
 		
 		
 		// Set the default date format for fields 
-		$date_format   = apply_filters( 'eps_date_format', 'n/j/Y' );
+		$date_format   = apply_filters( 'eps_date_format', 'n/j/y' );
 		
 	
 		// Return early is an incorrect field is passed
