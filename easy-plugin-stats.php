@@ -49,7 +49,7 @@ class Easy_Plugin_Stats {
 	 * @since 2.0.0
 	 */
 	public function editor_init() {
-		register_block_type( __DIR__ . '/build/blocks' );
+		register_block_type( __DIR__ . '/build/blocks/plugin-stats' );
 
 		register_block_bindings_source( 'easy-plugin-stats/button', array(
 			'label'              => __( 'Plugin Link Binding', 'easy-plugin-stats' ),
@@ -265,12 +265,10 @@ class Easy_Plugin_Stats {
 				'contributors',
 				'requires',
 				'tested',
-				//'compatibility',
 				'rating',
 				'five_rating',
 				'star_rating',
 				'num_ratings',
-				//'ratings',
 				'last_updated',
 				'added',
 				'homepage',

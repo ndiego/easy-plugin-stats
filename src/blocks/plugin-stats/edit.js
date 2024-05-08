@@ -78,19 +78,29 @@ export default function Edit( props ) {
 
 		const fetchDataForPluginSlugs = async () => {
 			try {
-				const pluginDataObject = {};
-				for ( const slug of slugs ) {
-					const response = await fetch(
+				const requests = slugs.map( ( slug ) =>
+					fetch(
 						`https://api.wordpress.org/plugins/info/1.0/${ slug }.json?fields=active_installs`
-					);
-					if ( ! response.ok ) {
-						throw new Error(
-							'An error occurred fetching plugin data.'
-						);
-					}
-					const jsonData = await response.json();
-					pluginDataObject[ slug ] = jsonData;
-				}
+					)
+						.then( ( response ) => {
+							if ( ! response.ok ) {
+								throw new Error(
+									'An error occurred fetching plugin data.',
+									'easy-plugin-stats'
+								);
+							}
+							return response.json();
+						} )
+						.then( ( jsonData ) => ( { slug, data: jsonData } ) )
+				);
+
+				const responses = await Promise.all( requests );
+
+				const pluginDataObject = {};
+				responses.forEach( ( { slug, data } ) => {
+					pluginDataObject[ slug ] = data;
+				} );
+
 				setPluginData( pluginDataObject );
 			} catch ( fetchError ) {
 				setError( fetchError.message );

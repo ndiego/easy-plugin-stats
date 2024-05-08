@@ -17,10 +17,6 @@ export const fields = [
 		value: 'name',
 	},
 	{
-		label: __( 'Slug', 'easy-plugin-stats' ),
-		value: 'slug',
-	},
-	{
 		label: __( 'Version', 'easy-plugin-stats' ),
 		value: 'version',
 	},

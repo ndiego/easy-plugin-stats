@@ -7,7 +7,7 @@ module.exports = {
 	...{
 		entry: {
 			'editor/index': path.resolve( process.cwd(), 'src/editor/index.js' ),
-            'blocks/index': path.resolve( process.cwd(), 'src/blocks/index.js')
+            'blocks/plugin-stats/index': path.resolve( process.cwd(), 'src/blocks/plugin-stats/index.js')
 		},
 		plugins: [
 			// Include WP's plugin config.
