@@ -1,0 +1,82 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "outermost/plugin-stats",
+  "version": "1.1.0",
+  "title": "Plugin Stats",
+  "category": "widgets",
+  "description": "Display stats associated with plugins hosted on WordPress.org.",
+  "attributes": {
+    "slugs": {
+      "type": "array",
+      "default": []
+    },
+    "field": {
+      "type": "string",
+      "default": "active_installs"
+    },
+    "cache": {
+      "type": "string"
+    },
+    "prefix": {
+      "type": "string"
+    },
+    "suffix": {
+      "type": "string"
+    },
+    "prefixColor": {
+      "type": "string"
+    },
+    "suffixColor": {
+      "type": "string"
+    },
+    "textAlign": {
+      "type": "string"
+    },
+    "linkText": {
+      "type": "string"
+    },
+    "linkTarget": {
+      "type": "boolean"
+    }
+  },
+  "example": {},
+  "supports": {
+    "html": false,
+    "color": {
+      "gradients": true,
+      "link": true,
+      "__experimentalDefaultControls": {
+        "background": true,
+        "text": true,
+        "link": true
+      }
+    },
+    "spacing": {
+      "margin": true,
+      "padding": true,
+      "__experimentalDefaultControls": {
+        "margin": false,
+        "padding": false
+      }
+    },
+    "typography": {
+      "fontSize": true,
+      "lineHeight": true,
+      "__experimentalFontFamily": true,
+      "__experimentalFontWeight": true,
+      "__experimentalFontStyle": true,
+      "__experimentalTextTransform": true,
+      "__experimentalTextDecoration": true,
+      "__experimentalLetterSpacing": true,
+      "__experimentalDefaultControls": {
+        "fontSize": true
+      }
+    }
+  },
+  "textdomain": "plugin-stats",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "render": "file:./render.php"
+}
