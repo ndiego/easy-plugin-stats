@@ -1,0 +1,36 @@
+/**
+ * The following styles get applied inside the editor only.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+
+.wp-block-outermost-plugin-stats {
+    [data-placeholder]:after {
+        content: attr(data-placeholder);
+        opacity: .62;
+    }
+
+    &.field-star_rating {
+        display: inline-flex;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+	.star-rating-container {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4em;
+        
+        svg {
+            -webkit-margin-start: -0.8em;
+            margin-inline-start: -0.8em;
+            fill: currentColor;
+            width: 2em;
+
+            &:first-child {
+                -webkit-margin-start: 0;
+                margin-inline-start: 0;
+            }
+        }
+    }
+}

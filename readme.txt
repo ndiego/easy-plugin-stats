@@ -1,6 +1,5 @@
 === Easy Plugin Stats ===
 Contributors: ndiego, outermostdesign
-Donate Link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5BQQ26BHVMEYW
 Tags: plugin, stats, statistics, wordpress.org, active installs, developer, download, download count, rating, wordpress, shortcode
 Requires at least: 3.6
 Tested up to: 4.5.3
@@ -83,7 +82,7 @@ There are a few ways you can help support the development of this plugin:
 
 == Frequently Asked Questions ==
 
-= How do I add a plugin stat shordcode? = 
+= How do I add a plugin stat shortcode? = 
 
 **Standard Method**
 

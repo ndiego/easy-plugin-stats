@@ -1,66 +1,118 @@
 <?php
 /**
- * Plugin Name: Easy Plugin Stats
- * Plugin URI:  https://www.nickdiego.com/plugins/easy-plugin-stats
- * Description: Easily display stats from plugins hosted on WordPress.org
- * Author:      Nick Diego
- * Author URI:  http://www.nickdiego.com
- * Version:     1.0.0
- * Text Domain: easy-plugin-stats
- * Domain Path: languages
- *
- * Copyright 2016 Nick Diego
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
- * any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, visit <http://www.gnu.org/licenses/>.
+ * Plugin Name:       Easy Plugin Stats
+ * Description:       Easily display stats from plugins hosted on WordPress.org
+ * Requires at least: 6.3
+ * Requires PHP:      7.0
+ * Version:           1.0.0
+ * Author:            Nick Diego
+ * Author URI:        https://www.nickdiego.com
+ * License:           GPL-2.0-or-later
+ * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
+ * Text Domain:       easy-plugin-stats
+ * 
+ * @package           Easy Plugin Stats
  */
-
 
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-
 class Easy_Plugin_Stats {
+
+	// Define class properties for number format and date format.
+    private $number_format;
+    private $date_format;
 
 	/**
 	 * Constructor
 	 *
-	 * @since 2.0.0
+	 * @since 1.0.0
 	 */
 	function __construct() {
 
+		add_action( 'init', array( $this, 'editor_init' ) );
 		add_action( 'wp_loaded', array( $this, 'init') );
+
+		// Initialize class properties with default values using apply_filters
+        $this->number_format = apply_filters( 'eps_number_format', array(
+            'decimals'      => 0,
+            'dec_point'     => '.',
+            'thousands_sep' => ','
+        ) );
+
+        $this->date_format = apply_filters( 'eps_date_format', 'n/j/y' );
 	}
 
 	/**
-	 * Initialize plugin.
+	 * Registers blocks and bindings.
 	 *
 	 * @since 2.0.0
 	 */
+	public function editor_init() {
+		register_block_type( __DIR__ . '/build/blocks' );
+
+		register_block_bindings_source( 'easy-plugin-stats/button', array(
+			'label'              => __( 'Plugin Link Binding', 'easy-plugin-stats' ),
+			'get_value_callback' => array( $this, 'bindings_callback' ),
+		) );
+	}
+
+	/**
+	 * Initialize the rest of the plugin.
+	 *
+	 * @since 1.0.0
+	 */
 	public function init() {
 		
-		load_plugin_textdomain( 'geasy-plugin-stats', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
-
-		add_action( 'admin_init', array( $this, 'add_tinymce_button' ) );
-		
+		load_plugin_textdomain( 'easy-plugin-stats', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 		add_shortcode( 'eps', array( $this, 'shortcode' ) );
-		
+
+		add_action( 'admin_init', array( $this, 'add_tinymce_button' ) );		
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts_enqueue' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enable_dashicons' ) );
+		add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_editor_scripts' ) );
 		
 		add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 2 );
 	}
 
+	/**
+	 * Retrieves plugin data based on the provided source arguments and generates field output (links)
+	 * using the fetched data. The returned string is bound to the Button block URL.
+	 *
+	 * @since 2.0.0
+	 * 
+	 * @param array $source_args An array containing source arguments such as 'slug', 'field', and 'cache'.
+	 * @return string|null       The field output generated based on the plugin data, or null if plugin slugs are not provided.
+	 */
+	public function bindings_callback( $source_args ) {
+
+		// Bail if there no plugin slugs.
+		if ( ! ( $source_args['slug'] ?? null ) ) {
+			return null;
+		}
+
+		$slug  = $source_args['slug'];
+		$field = $source_args['field'] ?? 'homepage_link';
+		$cache = $source_args['cache'] ?? null;
+	
+		// Fetch the plugin data.
+		$plugin_data = $this->get_remote_plugin_data( $slug, $cache );
+
+		return $this->field_output( $source_args, $plugin_data );
+	}
+
+	public function enqueue_editor_scripts() {
+
+		$script_asset = include dirname( __FILE__ ) . '/build/editor/index.asset.php';
+	
+		wp_enqueue_script(
+			'easy-plugin-stats-editor-scripts',
+			plugin_dir_url( __FILE__ ) . 'build/editor/index.js',
+			$script_asset['dependencies'],
+			$script_asset['version'],
+			true
+		);
+	}
 
 	/**
 	 * Initialize the columns shortcode tinymce button
@@ -83,7 +135,6 @@ class Easy_Plugin_Stats {
 		}
 	}
 
-
 	/**
 	 * Declare script for new button
 	 *
@@ -97,7 +148,6 @@ class Easy_Plugin_Stats {
 		return $plugins;
 	}
 
-
 	/**
 	 * Add translations to TinyMCE button
 	 *
@@ -110,7 +160,6 @@ class Easy_Plugin_Stats {
 		$locales['eps_translations'] = plugin_dir_path( __FILE__ ) . 'tinymce/plugin-translations.php';
 		return $locales;
 	}
-	
 
 	/**
 	 * Register new button in the TinyMCE editor
@@ -125,7 +174,6 @@ class Easy_Plugin_Stats {
 		return $buttons;
 	}
 	
-	
 	/**
 	 * Add the popup and the popup backdrop to the footer of admin page
 	 *
@@ -134,7 +182,6 @@ class Easy_Plugin_Stats {
 	public function tinymce_popup() {
 		include_once dirname( __FILE__ ) . '/tinymce/popup.php';
 	}
-	
 	
 	/**
 	 * Loads scripts/styles to the admin
@@ -164,7 +211,6 @@ class Easy_Plugin_Stats {
 		wp_enqueue_style( 'eps-popup-styles',  plugin_dir_url( __FILE__ ) . 'tinymce/css/popup.css' );
 	}
 
-
 	/**
 	 * Add the plugin icon to the tinymce button
 	 *
@@ -179,7 +225,6 @@ class Easy_Plugin_Stats {
 		<?php
 	}
 
-
 	/**
 	 * Enqueue Dashicons style for frontend use (needed for stars)
 	 *
@@ -188,7 +233,6 @@ class Easy_Plugin_Stats {
 	function enable_dashicons() {
 		wp_enqueue_style( 'dashicons' );
 	}
-
 
 	/**
 	 * Shortcode: Get plugin data from wp.org
@@ -245,99 +289,40 @@ class Easy_Plugin_Stats {
 				'active_installs',
 				'downloaded'
 			)
-		);
+			);
 		
-		
-		// Set the default number format for fields 
-		$number_format = apply_filters( 'eps_number_format', array( 
-			'decimals' => 0, 
-			'dec_point' => '.', 
-			'thousands_sep' => ',' 
-		) );
-		
-		
-		// Set the default date format for fields 
-		$date_format   = apply_filters( 'eps_date_format', 'n/j/y' );
-		
-	
 		// Return early is an incorrect field is passed
 		if ( ! in_array( $atts['field'], $allowed_fields[ $atts['type'] ] ) ) {
 			return;
 		}
 		
-		
 		if ( $atts['type'] == 'single' ) {
-		
-			// Get the plugin data if it has already been stored as a transient
-			$plugin_data = get_transient( 'eps_' . esc_attr( $atts['slug'] ) );
-		
-			// If there is no transient, get the plugin data from wp.org
-			if ( ! $plugin_data ) {
+			$plugin_data = $this->get_remote_plugin_data( $atts['slug'], $atts['cache_time'] );
 
-				$response = wp_remote_get( 'http://api.wordpress.org/plugins/info/1.0/' . esc_attr( $atts['slug'] ) . '.json?fields=active_installs' );
-		
-				if ( is_wp_error( $response ) ) {
-					return;
-				} else {
-					$plugin_data = (array) json_decode( wp_remote_retrieve_body( $response ) );
-			
-					// If someone typed in the plugin slug incorrectly, the body will return null
-					if ( ! empty( $plugin_data ) ) {
-						$cache_time  = is_int( $atts['cache_time'] ) ? $atts['cache_time'] : 43200; 
-						set_transient( 'eps_' . esc_attr( $atts['slug'] ), $plugin_data, $cache_time );
-					} else {
-						return;
-					}
-				}
-			}
-			
-			$output = html_entity_decode( $atts['before'] ) . $this->field_output( $atts, $plugin_data, $number_format, $date_format ) . html_entity_decode( $atts['after'] );
+			$output  = html_entity_decode( $atts['before'] );
+			$output .= $this->field_output( $atts, $plugin_data );
+			$output .= html_entity_decode( $atts['after'] );
 	
 			return $output;
 		
 		} else if ( $atts['type'] == 'aggregate' ) {
-			
-			$data = array();
-
+			$data          = array();
 			$cleaned_slugs = preg_replace( '/[^\w\-\s]/', ' ', $atts['slug'] ); // remove all characters that are not allowed
 			$cleaned_slugs = preg_replace( '/\s\s+/', ' ', $cleaned_slugs ); // trim all excess whitepace
-	
-			$slugs = explode( ' ', $cleaned_slugs );
+			$slugs         = explode( ' ', $cleaned_slugs );
 	
 			foreach ( $slugs as $slug ) {
-		
-				// Get the plugin data if it has already been stored as a transient
-				$plugin_data = get_transient( 'eps_' . $slug );
-		
-				// If there is no transient, get the plugin data from wp.org
-				if ( ! $plugin_data ) {
-
-					$response = wp_remote_get( 'http://api.wordpress.org/plugins/info/1.0/' . $slug . '.json?fields=active_installs' );
-		
-					if ( is_wp_error( $response ) ) {
-						continue;
-					} else {
-						$plugin_data = (array) json_decode( wp_remote_retrieve_body( $response ) );
-			
-						// If someone typed in the plugin slug incorrectly, the body will return null
-						if ( ! empty( $plugin_data ) ) {
-							$cache_time  = is_int( $atts['cache_time'] ) ? $atts['cache_time'] : 43200; 
-							set_transient( 'eps_' . esc_attr( $slug ), $plugin_data, $cache_time );
-						} else {
-							continue;
-						}
-					}
-				}
-		
-				$data[] = $this->field_output( $atts, $plugin_data, $number_format, $date_format );
+				$plugin_data = $this->get_remote_plugin_data( $slug, $atts['cache_time'] );
+				$data[]      = $this->field_output( $atts, $plugin_data );
 			}
 	
-			$output = html_entity_decode( $atts['before'] ) . number_format( array_sum( $data ), $number_format['decimals'], $number_format['dec_point'], $number_format['thousands_sep'] ) . html_entity_decode( $atts['after'] );
+			$output  = html_entity_decode( $atts['before'] );
+			$output .= number_format( array_sum( $data ), $this->number_format['decimals'], $this->number_format['dec_point'], $this->number_format['thousands_sep'] );
+			$output .= html_entity_decode( $atts['after'] );
 	
 			return $output;
 		}
 	}
-	
 	
 	/**
 	 * Helper function for generating all field output
@@ -347,15 +332,23 @@ class Easy_Plugin_Stats {
 	 * @param array $atts         An array shortcode attributes
 	 * @param array $plugin_data  An array of all retrived plugin data from wp.org
 	 */
-	public function field_output( $atts, $plugin_data, $number_format, $date_format ) {
+	public function field_output( $atts, $plugin_data ) {
+
+		if ( ! $plugin_data || ! isset( $plugin_data[ 'slug' ] ) ) {
+			return null;
+		}
+
+		$slug     = $plugin_data[ 'slug' ];
+		$rating   = isset( $plugin_data[ 'rating' ] ) ? $plugin_data[ 'rating' ] : '';
+		$sections = isset( $plugin_data['sections'] ) ? (array) $plugin_data['sections'] : array();
 	
 		// Generate the shortcode output, some fields need special handling
 		switch ( $atts['field'] ) {
 			case 'active_installs':
-				$output = ( $atts['type'] == 'single' ) ? number_format( $plugin_data[ 'active_installs' ], $number_format['decimals'], $number_format['dec_point'], $number_format['thousands_sep'] ) : $plugin_data[ 'active_installs' ];
+				$output = ( $atts['type'] == 'single' ) ? number_format( $plugin_data[ 'active_installs' ], $this->number_format['decimals'], $this->number_format['dec_point'], $this->number_format['thousands_sep'] ) : $plugin_data[ 'active_installs' ];
 				break;
 			case 'downloaded':
-				$output = ( $atts['type'] == 'single' ) ? number_format( $plugin_data[ 'downloaded' ], $number_format['decimals'], $number_format['dec_point'], $number_format['thousands_sep'] ) : $plugin_data[ 'downloaded' ];
+				$output = ( $atts['type'] == 'single' ) ? number_format( $plugin_data[ 'downloaded' ], $this->number_format['decimals'], $this->number_format['dec_point'], $this->number_format['thousands_sep'] ) : $plugin_data[ 'downloaded' ];
 				break;
 			case 'contributors':
 				$contributors = (array) $plugin_data[ 'contributors' ];
@@ -368,84 +361,72 @@ class Easy_Plugin_Stats {
 				}
 				break;
 			case 'five_rating':
-				$rating = $plugin_data[ 'rating' ];
-		
 				if ( ! empty ( $rating ) ) {
 					$output = ( $rating / 100 ) * 5;
 				}
 				break;
 			case 'star_rating':
-				$rating = $plugin_data[ 'rating' ];
-		
-				if ( ! empty ( $rating ) ) {
+
+				// @TODO update to use SVGs and not Dashicons.
+				if ( ! empty( $rating ) ) {
 					$five_rating = ( $rating / 100 ) * 5;
-			
-					$output = '<span class="eps-star-rating" title="' . $five_rating . " " . __( 'out of 5 stars', 'eps' ) . '">';
-			
-					if ( $rating < 5 ) {
-						$stars = array( 0,0,0,0,0 );
-					} else if ( $rating >= 5 && $rating < 15 ) {
-						$stars = array( 5,0,0,0,0 );
-					} else if ( $rating >= 15 && $rating < 25 ) {
-						$stars = array( 1,0,0,0,0 );
-					} else if ( $rating >= 25 && $rating < 35 ) {
-						$stars = array( 1,5,0,0,0 );
-					} else if ( $rating >= 35 && $rating < 45 ) {
-						$stars = array( 1,1,0,0,0 );
-					} else if ( $rating >= 45 && $rating < 55 ) {
-						$stars = array( 1,1,5,0,0 );
-					} else if ( $rating >= 55 && $rating < 65 ) {
-						$stars = array( 1,1,1,0,0 );
-					} else if ( $rating >= 65 && $rating < 75 ) {
-						$stars = array( 1,1,1,5,0 );
-					} else if ( $rating >= 75 && $rating < 85 ) {
-						$stars = array( 1,1,1,1,0 );
-					} else if ( $rating >= 85 && $rating < 95 ) {
-						$stars = array( 1,1,1,1,5 );
-					} else if ( $rating >= 95 ) {
-						$stars = array( 1,1,1,1,1 );
+					$output      = '<span class="eps-star-rating" title="' . $five_rating . " " . __( 'out of 5 stars', 'easy-plugin-stats' ) . '">';
+					$stars       = array_fill( 0, 5, 0 );
+					$filledStars = floor( $five_rating / 1 );
+					$halfStar    = round( $five_rating - $filledStars, 1 );
+				
+					for ( $i = 0; $i < $filledStars; $i++ ) {
+						$stars[ $i ] = 1;
 					}
-			
-					foreach( $stars as $star ) {
-						if ( $star == 0 ) {
-							$output .= '<span class="dashicons dashicons-star-empty"></span>';
-						} else if ( $star == 5 ) {
-							$output .= '<span class="dashicons dashicons-star-half"></span>';
-						} else if ( $star == 1 ) {
-							$output .= '<span class="dashicons dashicons-star-filled"></span>';
+				
+					if ( $halfStar >= 0.5 ) {
+						$stars[ $filledStars ] = 5;
+					}
+				
+					foreach ( $stars as $star ) {
+						switch ( $star ) {
+							case 0:
+								$output .= '<span class="dashicons dashicons-star-empty"></span>';
+								break;
+							case 5:
+								$output .= '<span class="dashicons dashicons-star-half"></span>';
+								break;
+							case 1:
+								$output .= '<span class="dashicons dashicons-star-filled"></span>';
+								break;
 						}
 					}
-			
+				
 					$output .= '</span>';
-				}	
+				}
 				break;
 			case 'last_updated':
-				$date     = date_create( $plugin_data['last_updated'] );
-				$output   = date_format( $date, $date_format );
+				$date   = date_create( $plugin_data['last_updated'] );
+				$output = date_format( $date, $date_format );
 				break;
 			case 'description':
-				$sections = (array) $plugin_data['sections'];
-				$output   = $sections['description'];
+				$output = $sections['description'];
 				break;
 			case 'installation':
-				$sections = (array) $plugin_data['sections'];
-				$output   = $sections['installation'];
+				$output = $sections['installation'];
 				break;
 			case 'screenshots':
-				$sections = (array) $plugin_data['sections'];
-				$output   = $sections['screenshots'];
+				$output = $sections['screenshots'];
 				break;
 			case 'changelog':
-				$sections = (array) $plugin_data['sections'];
-				$output   = $sections['changelog'];
+				$output = $sections['changelog'];
 				break;
 			case 'faq':
-				$sections = (array) $plugin_data['sections'];
-				$output   = $sections['faq'];
+				$output = $sections['faq'];
+				break;
+			case 'live_preview_link':
+				$output = 'https://playground.wordpress.net/?plugin=' . $slug . '&blueprint-url=https://wordpress.org/plugins/wp-json/plugins/v1/plugin/' . $slug . '/blueprint.json';
 				break;
 			case 'support_link':
-				$slug = $plugin_data[ 'slug' ];
 				$output = 'https://wordpress.org/support/plugin/' . $slug;
+				break;
+			case 'reviews_link':
+				$output = 'https://wordpress.org/support/plugin/' . $slug . '/reviews';
 				break;
 			case 'tags':
 				$tags = (array) $plugin_data[ 'tags' ];
@@ -460,7 +441,43 @@ class Easy_Plugin_Stats {
 		
 		return $output;
 	}
+
+	/**
+	 * Retrieves plugin data either from a transient cache or directly from WordPress.org API
+	 * if it's not already cached.
+	 *
+	 * @since 2.0.0
+	 * 
+	 * @param string $slug  The slug of the plugin to retrieve data for.
+	 * @param int    $cache Optional. The time in seconds to cache the plugin data. Default is 43200 seconds (12 hours).
+	 * @return array|null   An array containing plugin data if retrieved successfully, or null if retrieval fails.
+	 */
+	public function get_remote_plugin_data( $slug, $cache ) {
+
+		// Get the plugin data if it has already been stored as a transient.
+		$plugin_data = get_transient( 'eps_' . $slug );
+
+		// If there is no transient, get the plugin data from wp.org.
+		if ( ! $plugin_data ) {
+
+			// You need to manually include active installs.
+			$response = wp_remote_get( 'http://api.wordpress.org/plugins/info/1.0/' . $slug . '.json?fields=active_installs' );
+
+			if ( ! is_wp_error( $response ) ) {
+				$plugin_data = (array) json_decode( wp_remote_retrieve_body( $response ) );
 	
+				// If someone typed in the plugin slug incorrectly, the body will return null.
+				if ( ! empty( $plugin_data ) ) {
+					$cache_time  = is_int( $cache ) ? $cache : 43200; 
+					set_transient( 'eps_' . esc_attr( $slug ), $plugin_data, $cache_time );
+
+					return null;
+				}
+			}
+		}
+
+		return $plugin_data;
+	}
 	
 	/**
 	 * Adds additional links to the plugin row meta links
@@ -494,7 +511,6 @@ class Easy_Plugin_Stats {
 
 		return $links;
 	}
-
 }
 
 new Easy_Plugin_Stats();
