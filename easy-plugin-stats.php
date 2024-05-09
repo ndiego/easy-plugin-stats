@@ -49,7 +49,12 @@ class Easy_Plugin_Stats {
 	 * @since 2.0.0
 	 */
 	public function editor_init() {
-		register_block_type( __DIR__ . '/build/blocks/plugin-stats' );
+		register_block_type( 
+			__DIR__ . '/build/blocks/plugin-stats',
+			array(
+				'render_callback' => array( $this, 'render_block_outermost_plugin_stats' ),
+			)
+		);
 
 		register_block_bindings_source( 'easy-plugin-stats/button', array(
 			'label'              => __( 'Plugin Link Binding', 'easy-plugin-stats' ),
@@ -73,6 +78,69 @@ class Easy_Plugin_Stats {
 		add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_editor_scripts' ) );
 		
 		add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 2 );
+	}
+
+	/**
+	 * Renders the `outermost/plugin-stats` block.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param array    $attributes The block attributes.
+	 * @param string   $content    The saved content.
+	 * @param WP_Block $block      The parsed block.
+	 */
+	public function render_block_outermost_plugin_stats( $attributes, $content, $block ) {
+		
+		// Bail if there no plugin slugs.
+		if ( ! ( $attributes['slugs'] ?? null ) ) {
+			return null;
+		}
+		
+		$slugs       = $attributes['slugs'];
+		$field       = $attributes['field'] ?? 'homepage_link';
+		$cache       = $attributes['cache'] ?? null;
+		$prefix      = $attributes['prefix'] ?? null;
+		$suffix      = $attributes['suffix'] ?? null;
+		$link_text   = $attributes['link_text'] ?? null;
+		$link_target = $attributes['link_target'] ?? null;
+		$text_align  = $attributes['textAlign'] ?? null;
+
+		$classes = array( 'field-' . $field );
+		if ( $text_align ) {
+			$classes[] = 'has-text-align-' . $text_align;
+		}
+		if ( isset( $attributes['style']['elements']['link']['color']['text'] ) ) {
+			$classes[] = 'has-link-color';
+		}
+
+		$wrapper_attributes = get_block_wrapper_attributes( array( 'class' => implode( ' ', $classes ) ) );
+
+		$prefix_output = '';
+		if ( $prefix ) {
+			$prefix_output .= '<span class="wp-block-post-terms__prefix">' . $prefix . '</span>';
+		}
+
+		$suffix_output = '';
+		if ( $suffix ) {
+			$suffix_output = '<span class="wp-block-post-terms__suffix">' . $suffix . '</span>';
+		}
+
+		if ( 1 === count( $slugs ) ) {
+			$plugin_data = $this->get_remote_plugin_data( $slugs[0], $cache );
+		} else {
+			$plugin_data = null;
+		}
+
+		//@TODO add aggregate output.
+		$output  = $prefix_output;
+		$output .= $this->field_output( $attributes, $plugin_data, true );
+		$output .= $suffix_output;
+		
+		$html  = '<div ' . $wrapper_attributes . '>';
+		$html .= wp_kses_post( $output );
+		$html .= '</div>';
+
+		return $html;
 	}
 
 	/**
@@ -330,23 +398,24 @@ class Easy_Plugin_Stats {
 	 * @param array $atts         An array shortcode attributes
 	 * @param array $plugin_data  An array of all retrived plugin data from wp.org
 	 */
-	public function field_output( $atts, $plugin_data ) {
+	public function field_output( $atts, $plugin_data, $single = true ) {
 
 		if ( ! $plugin_data || ! isset( $plugin_data[ 'slug' ] ) ) {
 			return null;
 		}
 
-		$slug     = $plugin_data[ 'slug' ];
-		$rating   = isset( $plugin_data[ 'rating' ] ) ? $plugin_data[ 'rating' ] : '';
-		$sections = isset( $plugin_data['sections'] ) ? (array) $plugin_data['sections'] : array();
+		$is_single = ( $single || $atts['type'] == 'single' );
+		$slug      = $plugin_data[ 'slug' ];
+		$rating    = isset( $plugin_data[ 'rating' ] ) ? $plugin_data[ 'rating' ] : '';
+		$sections  = isset( $plugin_data[ 'sections' ] ) ? (array) $plugin_data[ 'sections' ] : array();
 	
 		// Generate the shortcode output, some fields need special handling
 		switch ( $atts['field'] ) {
 			case 'active_installs':
-				$output = ( $atts['type'] == 'single' ) ? number_format( $plugin_data[ 'active_installs' ], $this->number_format['decimals'], $this->number_format['dec_point'], $this->number_format['thousands_sep'] ) : $plugin_data[ 'active_installs' ];
+				$output = $is_single ? number_format( $plugin_data[ 'active_installs' ], $this->number_format['decimals'], $this->number_format['dec_point'], $this->number_format['thousands_sep'] ) : $plugin_data[ 'active_installs' ];
 				break;
 			case 'downloaded':
-				$output = ( $atts['type'] == 'single' ) ? number_format( $plugin_data[ 'downloaded' ], $this->number_format['decimals'], $this->number_format['dec_point'], $this->number_format['thousands_sep'] ) : $plugin_data[ 'downloaded' ];
+				$output = $is_single ? number_format( $plugin_data[ 'downloaded' ], $this->number_format['decimals'], $this->number_format['dec_point'], $this->number_format['thousands_sep'] ) : $plugin_data[ 'downloaded' ];
 				break;
 			case 'contributors':
 				$contributors = (array) $plugin_data[ 'contributors' ];
