@@ -68,15 +68,10 @@ class Easy_Plugin_Stats {
 	 * @since 1.0.0
 	 */
 	public function init() {
-		
 		load_plugin_textdomain( 'easy-plugin-stats', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+		add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_editor_scripts' ) );		
 		add_shortcode( 'eps', array( $this, 'shortcode' ) );
-
-		add_action( 'admin_init', array( $this, 'add_tinymce_button' ) );		
-		add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts_enqueue' ) );
-		add_action( 'wp_enqueue_scripts', array( $this, 'enable_dashicons' ) );
-		add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_editor_scripts' ) );
-		
+		add_action( 'wp_head', array( $this, 'shortcode_inline_styles' ) );
 		add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 2 );
 	}
 
@@ -137,7 +132,7 @@ class Easy_Plugin_Stats {
 		$output .= $suffix_output;
 		
 		$html  = '<div ' . $wrapper_attributes . '>';
-		$html .= wp_kses_post( $output );
+		$html .= $field === 'star_rating' ? $output : wp_kses_post( $output );
 		$html .= '</div>';
 
 		return $html;
@@ -182,124 +177,30 @@ class Easy_Plugin_Stats {
 		);
 	}
 
-	/**
-	 * Initialize the columns shortcode tinymce button
-	 *
-	 * @since 1.0.0
-	 */
-	public function add_tinymce_button() {
+	public function shortcode_inline_styles() {
 
-		// Check user permissions
-		if ( ! current_user_can( 'edit_posts' ) && ! current_user_can( 'edit_pages' ) ) {
-			return;
+		// Check if the shortcode exists
+		if ( shortcode_exists( 'eps' ) ) {
+
+			$shortcode_css = '
+				.star-rating-container {
+					display: inline-flex;
+					align-items: center;
+					gap: 0.4em;
+				}
+				.star-rating-container svg {
+					margin-inline-start: -0.8em;
+					fill: currentColor;
+					width: 2em;
+				}
+				.star-rating-container svg:first-child {
+					margin-inline-start: 0;
+				}
+			';
+	
+			// Output the inline styles directly in the HTML head section
+			echo '<style id="eps-shortcode-styles" type="text/css">' . $shortcode_css . '</style>';
 		}
-		// Check if WYSIWYG is enabled
-		if ( 'true' == get_user_option( 'rich_editing' ) ) {
-			add_filter( 'mce_external_languages', array( $this, 'add_tinymce_translations' ) );
-			add_filter( 'mce_external_plugins', array( $this, 'add_tinymce_plugin' ) );
-			add_filter( 'mce_buttons', array( $this, 'register_tinymce_button' ) );
-			add_action( 'admin_print_footer_scripts', array( $this, 'tinymce_popup' ), 100);
-			add_action( 'admin_head', array( $this, 'tinymce_button_style' ) );
-		}
-	}
-
-	/**
-	 * Declare script for new button
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param array $plugins An array of all current TinyMCE plugins
-	 * @return array $plugins Return the plugins array with our plugin added
-	 */
-	function add_tinymce_plugin( $plugins ) {
-		$plugins['eps_plugin'] = plugin_dir_url( __FILE__ ) . 'tinymce/js/plugin.js';
-		return $plugins;
-	}
-
-	/**
-	 * Add translations to TinyMCE button
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param array $locales An array of all current TinyMCE translations
-	 * @return array $locales Return the translations array with our translations added
-	 */
-	public function add_tinymce_translations( $locales ) {
-		$locales['eps_translations'] = plugin_dir_path( __FILE__ ) . 'tinymce/plugin-translations.php';
-		return $locales;
-	}
-
-	/**
-	 * Register new button in the TinyMCE editor
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param array $buttons An array of all current TinyMCE buttons
-	 * @return array $buttons Return the buttons array with our button added
-	 */
-	function register_tinymce_button( $buttons ) {
-		array_push( $buttons, 'eps_plugin' );
-		return $buttons;
-	}
-	
-	/**
-	 * Add the popup and the popup backdrop to the footer of admin page
-	 *
-	 * @since 1.0.0
-	 */
-	public function tinymce_popup() {
-		include_once dirname( __FILE__ ) . '/tinymce/popup.php';
-	}
-	
-	/**
-	 * Loads scripts/styles to the admin
-	 *
-	 * @since 1.0.0
-	 */
-	function admin_scripts_enqueue() {
-		
-		wp_register_script( 'eps-popup-scripts', plugin_dir_url( __FILE__ ) . 'tinymce/js/popup.js' );
-		wp_enqueue_script( 'eps-popup-scripts' );
-	
-		// Used for adding translations to javascript
-		wp_localize_script( 
-			'eps-popup-scripts', 
-			'eps_localize_scripts', 
-			array(				
-				'single_slug_title'	 	=> __( 'Plugin Slug', 'easy-plugin-stats' ),
-				'aggregate_slug_title'	=> __( 'Plugin Slugs', 'easy-plugin-stats' ),
-				'single_slug_desc' 		=> sprintf( __( 'Enter your plugin\'s slug and choose the stat field you wish to display. For help, visit this plugin\'s %sdocumentation%s.', 'easy-plugin-stats' ), '<a href="http://www.nickdiego.com/plugins/easy-plugin-stats">', '</a>' ),
-				'aggregate_slug_desc' 	=> sprintf( __( 'Enter any number of %sspace separated%s plugin slugs and choose the stat field you wish to display. For help, visit this plugin\'s %sdocumentation%s.', 'easy-plugin-stats' ), '<strong>', '</strong>', '<a href="http://www.nickdiego.com/plugins/easy-plugin-stats">', '</a>' ),
-				'advanced_show'			=> __( 'Show Advanced Settings', 'easy-plugin-stats' ),
-				'advanced_hide'			=> __( 'Hide Advanced Settings', 'easy-plugin-stats' ),
-				'missing_slug'         	=> __( 'You forgot to enter a plugin slug!', 'easy-plugin-stats' ),
-			)
-		);
-
-		wp_enqueue_style( 'eps-popup-styles',  plugin_dir_url( __FILE__ ) . 'tinymce/css/popup.css' );
-	}
-
-	/**
-	 * Add the plugin icon to the tinymce button
-	 *
-	 * @since 1.0.0
-	 */
-	function tinymce_button_style() {
-		?>
-		<style>
-			.mce-i-dashicons-admin-plugins { font: 400 20px/1 dashicons !important; vertical-align: top; speak: none; -webkit-font-smoothing: antialiased; }
-			.mce-i-dashicons-admin-plugins:before { content: "\f106"; }
-		</style>
-		<?php
-	}
-
-	/**
-	 * Enqueue Dashicons style for frontend use (needed for stars)
-	 *
-	 * @since 1.0.0
-	 */
-	function enable_dashicons() {
-		wp_enqueue_style( 'dashicons' );
 	}
 
 	/**
@@ -434,10 +335,9 @@ class Easy_Plugin_Stats {
 				break;
 			case 'star_rating':
 
-				// @TODO update to use SVGs and not Dashicons.
 				if ( ! empty( $rating ) ) {
 					$five_rating = ( $rating / 100 ) * 5;
-					$output      = '<span class="eps-star-rating" title="' . $five_rating . " " . __( 'out of 5 stars', 'easy-plugin-stats' ) . '">';
+					$output      = '<span class="star-rating-container" title="' . $five_rating . " " . __( 'out of 5 stars', 'easy-plugin-stats' ) . '">';
 					$stars       = array_fill( 0, 5, 0 );
 					$filledStars = floor( $five_rating / 1 );
 					$halfStar    = round( $five_rating - $filledStars, 1 );
@@ -449,17 +349,21 @@ class Easy_Plugin_Stats {
 					if ( $halfStar >= 0.5 ) {
 						$stars[ $filledStars ] = 5;
 					}
+
+					$star_empty  = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M9.706 8.646a.25.25 0 01-.188.137l-4.626.672a.25.25 0 00-.139.427l3.348 3.262a.25.25 0 01.072.222l-.79 4.607a.25.25 0 00.362.264l4.138-2.176a.25.25 0 01.233 0l4.137 2.175a.25.25 0 00.363-.263l-.79-4.607a.25.25 0 01.072-.222l3.347-3.262a.25.25 0 00-.139-.427l-4.626-.672a.25.25 0 01-.188-.137l-2.069-4.192a.25.25 0 00-.448 0L9.706 8.646zM12 7.39l-.948 1.921a1.75 1.75 0 01-1.317.957l-2.12.308 1.534 1.495c.412.402.6.982.503 1.55l-.362 2.11 1.896-.997a1.75 1.75 0 011.629 0l1.895.997-.362-2.11a1.75 1.75 0 01.504-1.55l1.533-1.495-2.12-.308a1.75 1.75 0 01-1.317-.957L12 7.39z" clip-rule="evenodd"></path></svg>';
+					$star_filled = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M11.776 4.454a.25.25 0 01.448 0l2.069 4.192a.25.25 0 00.188.137l4.626.672a.25.25 0 01.139.426l-3.348 3.263a.25.25 0 00-.072.222l.79 4.607a.25.25 0 01-.362.263l-4.138-2.175a.25.25 0 00-.232 0l-4.138 2.175a.25.25 0 01-.363-.263l.79-4.607a.25.25 0 00-.071-.222L4.754 9.881a.25.25 0 01.139-.426l4.626-.672a.25.25 0 00.188-.137l2.069-4.192z"></path></svg>';
+					$star_half   = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9.518 8.783a.25.25 0 00.188-.137l2.069-4.192a.25.25 0 01.448 0l2.07 4.192a.25.25 0 00.187.137l4.626.672a.25.25 0 01.139.427l-3.347 3.262a.25.25 0 00-.072.222l.79 4.607a.25.25 0 01-.363.264l-4.137-2.176a.25.25 0 00-.233 0l-4.138 2.175a.25.25 0 01-.362-.263l.79-4.607a.25.25 0 00-.072-.222L4.753 9.882a.25.25 0 01.14-.427l4.625-.672zM12 14.533c.28 0 .559.067.814.2l1.895.997-.362-2.11a1.75 1.75 0 01.504-1.55l1.533-1.495-2.12-.308a1.75 1.75 0 01-1.317-.957L12 7.39v7.143z"></path></svg>';
 				
 					foreach ( $stars as $star ) {
 						switch ( $star ) {
 							case 0:
-								$output .= '<span class="dashicons dashicons-star-empty"></span>';
+								$output .= $star_empty;
 								break;
 							case 5:
-								$output .= '<span class="dashicons dashicons-star-half"></span>';
+								$output .= $star_half;
 								break;
 							case 1:
-								$output .= '<span class="dashicons dashicons-star-filled"></span>';
+								$output .= $star_filled;
 								break;
 						}
 					}

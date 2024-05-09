@@ -1,12 +1,26 @@
-/**
- * The following styles get applied both on the front of your site
- * and in the editor.
- *
- * Replace them with your own styles or remove the file completely.
- */
+ .wp-block-outermost-plugin-stats {
 
-// .wp-block-easy-plugin-stats-plugin-stats {
-// 	background-color: #21759b;
-// 	color: #fff;
-// 	padding: 2px;
-// }
+    &.field-star_rating {
+        display: inline-flex;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+	.star-rating-container {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4em;
+        
+        svg {
+            -webkit-margin-start: -0.8em;
+            margin-inline-start: -0.8em;
+            fill: currentColor;
+            width: 2em;
+
+            &:first-child {
+                -webkit-margin-start: 0;
+                margin-inline-start: 0;
+            }
+        }
+    }
+}

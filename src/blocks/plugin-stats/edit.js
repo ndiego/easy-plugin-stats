@@ -35,7 +35,7 @@ import { useEffect, useState } from '@wordpress/element';
 import './editor.scss';
 import { fields, linkedFields } from './fields';
 import { ALLOWED_FORMATS } from './constants';
-import { getDisplayValue } from './display';
+import { getFieldValue } from './output';
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -144,6 +144,13 @@ export default function Edit( props ) {
 				} ),
 		},
 	];
+
+	// Some output values are links and we don't want them to be clickable.
+	const preventLinkClicks = ( event ) => {
+        if ( event.target.tagName === 'A' ) {
+            event.preventDefault();
+        }
+    };
 
 	// Disable fields not supported when multiple plugins are chosen.
 	const availableFields = ! isAggregate
@@ -346,7 +353,9 @@ export default function Edit( props ) {
 						tagName="span"
 					/>
 				) }
-				{ getDisplayValue( attributes, pluginData, error ) }
+				<span class="stat-container" onClick={ preventLinkClicks }>
+					{ getFieldValue( attributes, pluginData, error ) }
+				</span>
 				{ ( isSelected || suffix ) && (
 					<RichText
 						identifier="suffix"

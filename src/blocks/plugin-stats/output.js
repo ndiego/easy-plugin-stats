@@ -10,7 +10,7 @@ import { getSettings, format } from '@wordpress/date';
  */
 import { fields, linkedFields } from './fields';
 
-export function getDisplayValue( attributes, pluginData, error ) {
+export function getFieldValue( attributes, pluginData, error ) {
 	const { field, slugs, linkText } = attributes;
 
 	// Display default message if there's nothing to display.
@@ -21,7 +21,7 @@ export function getDisplayValue( attributes, pluginData, error ) {
 	) {
 		return (
 			<span
-				data-placeholder={ __( 'Plugin Stats', 'easy-plugin-stats' ) }
+				data-placeholder={ __( 'Plugin stat', 'easy-plugin-stats' ) }
 			></span>
 		);
 	}
