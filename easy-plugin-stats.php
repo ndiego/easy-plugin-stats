@@ -10,18 +10,20 @@
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       easy-plugin-stats
- * 
+ *
  * @package           Easy Plugin Stats
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 class Easy_Plugin_Stats {
 
-	// Define class properties for number format and date format.
-    private $number_format;
-    private $date_format;
+	/**
+	 * Define class properties for number format and date format.
+	 */
+	private $number_format;
+	private $date_format;
 
 	/**
 	 * Constructor
@@ -33,14 +35,14 @@ class Easy_Plugin_Stats {
 		add_action( 'init', array( $this, 'editor_init' ) );
 		add_action( 'wp_loaded', array( $this, 'init') );
 
-		// Initialize class properties with default values using apply_filters
-        $this->number_format = apply_filters( 'eps_number_format', array(
-            'decimals'      => 0,
-            'dec_point'     => '.',
-            'thousands_sep' => ','
-        ) );
+		// Initialize class properties with default values using apply_filters.
+		$this->number_format = apply_filters( 'eps_number_format', array(
+			'decimals'      => 0,
+			'dec_point'     => '.',
+			'thousands_sep' => ','
+		) );
 
-        $this->date_format = apply_filters( 'eps_date_format', 'n/j/y' );
+		$this->date_format = apply_filters( 'eps_date_format', 'n/j/y' );
 	}
 
 	/**
@@ -49,7 +51,7 @@ class Easy_Plugin_Stats {
 	 * @since 2.0.0
 	 */
 	public function editor_init() {
-		register_block_type( 
+		register_block_type(
 			__DIR__ . '/build/blocks/plugin-stats',
 			array(
 				'render_callback' => array( $this, 'render_block_outermost_plugin_stats' ),
@@ -69,7 +71,7 @@ class Easy_Plugin_Stats {
 	 */
 	public function init() {
 		load_plugin_textdomain( 'easy-plugin-stats', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
-		add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_editor_scripts' ) );		
+		add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_editor_scripts' ) );
 		add_shortcode( 'eps', array( $this, 'shortcode' ) );
 		add_action( 'wp_head', array( $this, 'shortcode_inline_styles' ) );
 		add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 2 );
@@ -80,17 +82,15 @@ class Easy_Plugin_Stats {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param array    $attributes The block attributes.
-	 * @param string   $content    The saved content.
-	 * @param WP_Block $block      The parsed block.
+	 * @param array $attributes The block attributes.
 	 */
-	public function render_block_outermost_plugin_stats( $attributes, $content, $block ) {
-		
+	public function render_block_outermost_plugin_stats( $attributes ) {
+
 		// Bail if there no plugin slugs.
 		if ( ! ( $attributes['slugs'] ?? null ) ) {
 			return null;
 		}
-		
+
 		$slugs       = $attributes['slugs'];
 		$field       = $attributes['field'] ?? 'homepage_link';
 		$cache       = $attributes['cache'] ?? null;
@@ -139,7 +139,7 @@ class Easy_Plugin_Stats {
 		$output  = $prefix_output;
 		$output .= $field_data;
 		$output .= $suffix_output;
-		
+
 		$html  = '<div ' . $wrapper_attributes . '>';
 		$html .= $field === 'star_rating' ? $output : wp_kses_post( $output );
 		$html .= '</div>';
@@ -152,7 +152,7 @@ class Easy_Plugin_Stats {
 	 * using the fetched data. The returned string is bound to the Button block URL.
 	 *
 	 * @since 2.0.0
-	 * 
+	 *
 	 * @param array $source_args An array containing source arguments such as 'slug', 'field', and 'cache'.
 	 * @return string|null       The field output generated based on the plugin data, or null if plugin slugs are not provided.
 	 */
@@ -166,17 +166,22 @@ class Easy_Plugin_Stats {
 		$slug  = $source_args['slug'];
 		$field = $source_args['field'] ?? 'homepage_link';
 		$cache = $source_args['cache'] ?? null;
-	
+
 		// Fetch the plugin data.
 		$plugin_data = $this->get_remote_plugin_data( $slug, $cache );
 
 		return $this->field_output( $source_args, $plugin_data, true, false );
 	}
 
+	/**
+	 * Enqueues scripts for the block editor.
+	 *
+	 * @since 2.0.0
+	 */
 	public function enqueue_editor_scripts() {
 
 		$script_asset = include dirname( __FILE__ ) . '/build/editor/index.asset.php';
-	
+
 		wp_enqueue_script(
 			'easy-plugin-stats-editor-scripts',
 			plugin_dir_url( __FILE__ ) . 'build/editor/index.js',
@@ -186,9 +191,14 @@ class Easy_Plugin_Stats {
 		);
 	}
 
+	/**
+	 * Outputs inline styles for the shortcode if it exists.
+	 *
+	 * @since 2.0.0
+	 */
 	public function shortcode_inline_styles() {
 
-		// Check if the shortcode exists
+		// Check if the shortcode exists.
 		if ( shortcode_exists( 'eps' ) ) {
 
 			$shortcode_css = '
@@ -206,8 +216,8 @@ class Easy_Plugin_Stats {
 					margin-inline-start: 0;
 				}
 			';
-	
-			// Output the inline styles directly in the HTML head section
+
+			// Output the inline styles directly in the HTML head section.
 			echo '<style id="eps-shortcode-styles" type="text/css">' . $shortcode_css . '</style>';
 		}
 	}
@@ -217,22 +227,22 @@ class Easy_Plugin_Stats {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param array $atts  An array shortcode attributes
+	 * @param array $atts An array shortcode attributes.
 	 */
 	public function shortcode( $atts ) {
-	
-		$atts = shortcode_atts( array( 
+
+		$atts = shortcode_atts( array(
 			'type'		 => 'single',
 			'slug' 	  	 => '',
-			'field'      => 'active_installs', 
+			'field'      => 'active_installs',
 			'before'	 => '',
 			'after'		 => '',
 			'cache_time' => 43200,
 		), $atts );
-	
-		// The list of currently allowed fields
-		$allowed_fields = array( 
-			'single' => array( 
+
+		// The list of currently allowed fields.
+		$allowed_fields = array(
+			'single' => array(
 				'active_installs',
 				'downloaded',
 				'name',
@@ -260,52 +270,54 @@ class Easy_Plugin_Stats {
 				'tags',
 				'donate_link',
 			),
-			'aggregate' => array( 
+			'aggregate' => array(
 				'active_installs',
 				'downloaded'
 			)
 			);
-		
-		// Return early is an incorrect field is passed
+
+		// Return early is an incorrect field is passed.
 		if ( ! in_array( $atts['field'], $allowed_fields[ $atts['type'] ] ) ) {
 			return;
 		}
-		
+
 		if ( $atts['type'] == 'single' ) {
 			$plugin_data = $this->get_remote_plugin_data( $atts['slug'], $atts['cache_time'] );
 
 			$output  = html_entity_decode( $atts['before'] );
 			$output .= $this->field_output( $atts, $plugin_data, true, false );
 			$output .= html_entity_decode( $atts['after'] );
-	
+
 			return $output;
-		
+
 		} else if ( $atts['type'] == 'aggregate' ) {
 			$field_data    = array();
-			$cleaned_slugs = preg_replace( '/[^\w\-\s]/', ' ', $atts['slug'] ); // remove all characters that are not allowed
-			$cleaned_slugs = preg_replace( '/\s\s+/', ' ', $cleaned_slugs ); // trim all excess whitepace
+			$cleaned_slugs = preg_replace( '/[^\w\-\s]/', ' ', $atts['slug'] ); // remove all characters that are not allowed.
+			$cleaned_slugs = preg_replace( '/\s\s+/', ' ', $cleaned_slugs ); // trim all excess whitepace.
 			$slugs         = explode( ' ', $cleaned_slugs );
-	
+
 			foreach ( $slugs as $slug ) {
 				$plugin_data  = $this->get_remote_plugin_data( $slug, $atts['cache_time'] );
 				$field_data[] = $this->field_output( $atts, $plugin_data, false, false );
 			}
-	
+
 			$output  = html_entity_decode( $atts['before'] );
 			$output .= number_format( array_sum( $field_data ), $this->number_format['decimals'], $this->number_format['dec_point'], $this->number_format['thousands_sep'] );
 			$output .= html_entity_decode( $atts['after'] );
-	
+
 			return $output;
 		}
 	}
-	
+
 	/**
 	 * Helper function for generating all field output
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param array $atts         An array shortcode attributes
-	 * @param array $plugin_data  An array of all retrived plugin data from wp.org
+	 * @param array   $atts         An array shortcode attributes.
+	 * @param array   $plugin_data  An array of all retrived plugin data from wp.org.
+	 * @param boolean $single       Is it a single plugin (true) or an aggregate (false).
+	 * @param boolean $block        Is the output for a block (true) or binding/shortcode (false).
 	 */
 	public function field_output( $atts, $plugin_data, $single = true, $block = true ) {
 
@@ -317,8 +329,8 @@ class Easy_Plugin_Stats {
 		$slug      = $plugin_data['slug'];
 		$rating    = $plugin_data['rating'] ?? '';
 		$sections  = (array) ( $plugin_data['sections'] ?? [] );
-	
-		// Generate the shortcode output, some fields need special handling
+
+		// Generate the shortcode output, some fields need special handling.
 		switch ( $atts['field'] ) {
 			case 'active_installs':
 			case 'downloaded':
@@ -409,7 +421,7 @@ class Easy_Plugin_Stats {
 			default:
 				$output = $plugin_data[ $atts['field'] ] ?? '';
 		}
-		
+
 		return $output;
 	}
 
@@ -436,7 +448,7 @@ class Easy_Plugin_Stats {
 	 * if it's not already cached.
 	 *
 	 * @since 2.0.0
-	 * 
+	 *
 	 * @param string $slug  The slug of the plugin to retrieve data for.
 	 * @param int    $cache Optional. The time in seconds to cache the plugin data. Default is 43200 seconds (12 hours).
 	 * @return array|null   An array containing plugin data if retrieved successfully, or null if retrieval fails.
@@ -454,10 +466,10 @@ class Easy_Plugin_Stats {
 
 			if ( ! is_wp_error( $response ) ) {
 				$plugin_data = (array) json_decode( wp_remote_retrieve_body( $response ) );
-	
+
 				// If someone typed in the plugin slug incorrectly, the body will return null.
 				if ( ! empty( $plugin_data ) ) {
-					$cache_time  = is_int( $cache ) ? $cache : 43200; 
+					$cache_time  = is_int( $cache ) ? $cache : 43200;
 					set_transient( 'eps_' . esc_attr( $slug ), $plugin_data, $cache_time );
 
 					return null;
@@ -467,19 +479,19 @@ class Easy_Plugin_Stats {
 
 		return $plugin_data;
 	}
-	
+
 	/**
 	 * Adds additional links to the plugin row meta links
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param array $links   Already defined meta links
-	 * @param string $file   Plugin file path and name being processed
-	 * @return array $links  The new array of meta links
+	 * @param array  $links Already defined meta links.
+	 * @param string $file  Plugin file path and name being processed.
+	 * @return array $links The new array of meta links.
 	 */
 	public function plugin_row_meta( $links, $file ) {
 
-		// If we are not on the correct plugin, abort
+		// If we are not on the correct plugin, abort.
 		if ( $file != 'easy-plugin-stats/easy-plugin-stats.php' ) {
 			return $links;
 		}
