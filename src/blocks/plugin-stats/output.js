@@ -26,7 +26,7 @@ export function getFieldValue( attributes, pluginData, error ) {
 		);
 	}
 
-	// Check if pluginData contains multiple items and the field is either 'active_installs' or 'downloaded'
+	// Check if pluginData contains multiple items and the field is either 'active_installs' or 'downloaded'.
 	if (
 		( field === 'active_installs' || field === 'downloaded' ) &&
 		Object.keys( pluginData ).length > 1
@@ -40,14 +40,14 @@ export function getFieldValue( attributes, pluginData, error ) {
 				}
 			}
 		}
-		// Format the sum with commas if it's greater than 1000
+		// Format the sum with commas if it's greater than 1000.
 		return sum.toLocaleString();
 	}
 
-	// If pluginData contains a single item, retrieve the value from the specified field
+	// If pluginData contains a single item, retrieve the value from the specified field.
 	const value = pluginData[ Object.keys( pluginData )[ 0 ] ][ field ];
 
-	// If the field is 'author', return the value as HTML
+	// If the field is 'author', return the value as HTML.
 	if ( field === 'author' ) {
 		return <span dangerouslySetInnerHTML={ { __html: value } } />;
 	}
@@ -135,6 +135,6 @@ export function getFieldValue( attributes, pluginData, error ) {
 		return <span dangerouslySetInnerHTML={ { __html: output } } />;
 	}
 
-	// Format the value with commas if it's greater than 1000
+	// Format the value with commas if it's greater than 1000,
 	return value > 1000 ? value.toLocaleString() : value;
 }

@@ -147,10 +147,10 @@ export default function Edit( props ) {
 
 	// Some output values are links and we don't want them to be clickable.
 	const preventLinkClicks = ( event ) => {
-        if ( event.target.tagName === 'A' ) {
-            event.preventDefault();
-        }
-    };
+		if ( event.target.tagName === 'A' ) {
+			event.preventDefault();
+		}
+	};
 
 	// Disable fields not supported when multiple plugins are chosen.
 	const availableFields = ! isAggregate
@@ -353,7 +353,7 @@ export default function Edit( props ) {
 						tagName="span"
 					/>
 				) }
-				<span class="stat-container" onClick={ preventLinkClicks }>
+				<span className="stat-container" onClick={ preventLinkClicks }>
 					{ getFieldValue( attributes, pluginData, error ) }
 				</span>
 				{ ( isSelected || suffix ) && (
