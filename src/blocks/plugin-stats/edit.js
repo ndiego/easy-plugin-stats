@@ -34,8 +34,16 @@ import { useEffect, useState } from '@wordpress/element';
  */
 import './editor.scss';
 import { fields, linkedFields } from './fields';
-import { ALLOWED_FORMATS } from './constants';
-import { getFieldValue } from './output';
+import { getFieldOutput } from './field-output';
+
+// Allowed formats for the prefix and suffix fields.
+export const ALLOWED_FORMATS = [
+	'core/bold',
+	'core/italic',
+	'core/link',
+	'core/strikethrough',
+	'core/text-color',
+];
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -354,7 +362,7 @@ export default function Edit( props ) {
 					/>
 				) }
 				<span className="stat-container" onClick={ preventLinkClicks }>
-					{ getFieldValue( attributes, pluginData, error ) }
+					{ getFieldOutput( attributes, pluginData, error ) }
 				</span>
 				{ ( isSelected || suffix ) && (
 					<RichText

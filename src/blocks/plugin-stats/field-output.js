@@ -10,7 +10,7 @@ import { getSettings, format } from '@wordpress/date';
  */
 import { fields, linkedFields } from './fields';
 
-export function getFieldValue( attributes, pluginData, error ) {
+export function getFieldOutput( attributes, pluginData, error ) {
 	const { field, slugs, linkText } = attributes;
 
 	// Display default message if there's nothing to display.
@@ -100,8 +100,11 @@ export function getFieldValue( attributes, pluginData, error ) {
 		const rating =
 			pluginData[ Object.keys( pluginData )[ 0 ] ]?.rating ?? 100;
 		const starRating = ( rating / 100 ) * 5;
-		const fullStars = Math.floor( starRating );
-		const halfStar = starRating % 1 >= 0.5 ? 1 : 0;
+		const remainder = ( starRating % 1 ).toFixed(2);
+
+		// Determine how many full, half, and empty stars there are.
+		const fullStars = remainder >= 0.8 ? Math.floor( starRating + 1 ) : Math.floor( starRating );
+		const halfStar = ( remainder < 0.8 && remainder > 0.2 ) ? 1 : 0;
 		const emptyStars = 5 - fullStars - halfStar;
 
 		const stars = [];
