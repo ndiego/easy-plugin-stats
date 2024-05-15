@@ -1,7 +1,7 @@
 {
   "name": "easy-plugin-stats",
-  "version": "1.0.0",
-  "description": "Easily display stats about plugins that reside in the WordPress.org repository. ",
+  "version": "2.0.0",
+  "description": "Easily display stats associated with plugins hosted on WordPress.org.",
   "main": "build/index.js",
   "repository": {
     "type": "git",
