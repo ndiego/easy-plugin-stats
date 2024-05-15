@@ -1,19 +1,21 @@
 === Easy Plugin Stats ===
-Contributors: ndiego, outermostdesign
-Tags: plugin, stats, statistics, wordpress.org, active installs, developer, download, download count, rating, wordpress, shortcode
-Requires at least: 3.6
-Tested up to: 4.5.3
-Stable tag: 1.0.0
-License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Author URI:        https://www.nickdiego.com/
+Contributors:      ndiego, outermostdesign
+Tags:              plugin, stats, statistics, active installs, downloads
+Requires at least: 6.3
+Tested up to:      6.5
+Requires PHP:      7.4
+Stable tag:        2.0.0
+License:           GPL-2.0
+License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 
-Easily display stats about plugins that reside in the WordPress.org repository. 
+Easily display stats associated with plugins hosted on WordPress.org.
 
 == Description ==
 
 **Disclaimer:** This plugin is geared towards developers with plugins in the WordPress.org repository and anyone else that wants to easily display information about a plugin that is in the repository. Don't fit this criteria? Then this plugin will probably not be of much use to you. 
 
-This plugin was designed to be as simple as possible, while still being very powerful. There is no settings page, just one shortcode and TinyMCE shortcode interface to help you generate codes with ease. You can display stats from a single plugin, or aggregate stats from multiple plugins. Check out the video below for a quick overview.
+This plugin was designed to be as simple as possible while still being very powerful. There is no settings page, just one shortcode and TinyMCE shortcode interface to help you generate codes with ease. You can display stats from a single plugin, or aggregate stats from multiple plugins. Check out the video below for a quick overview.
 
 https://www.youtube.com/watch?v=zGFIlgcKS-s
 
@@ -39,7 +41,6 @@ You can display any of the fields returned by the WordPress.org plugins API, as 
 * Last Updated
 * Date Added
 * Plugin Homepage Link
-* Short Description
 * Description
 * Installation
 * Screenshots
@@ -166,6 +167,13 @@ If you have additional questions or would like to request additional features pl
 3. A screenshot of the frontend, which shows the output of the sample shortcodes in the first screenshot.
 
 == Changelog ==
+
+= 2.0.0 =
+
+**Changed**
+
+* The TinyMCE plugin has been removed. Shortcodes still work but have to be created manually. 
+* Star ratings are now SVGs, and the Dashicons have been removed.
 
 = 1.0.0 =
 * Initial Release
