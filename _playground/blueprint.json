@@ -15,13 +15,16 @@
 			"userId": 1
 		},
 		{
+			"step": "setSiteOptions",
+			"options": {
+				"blogname": "Easy Plugin Stats"
+			}
+		},
+		{
 			"step": "installPlugin",
 			"pluginZipFile": {
 				"resource": "wordpress.org/plugins",
 				"slug": "easy-plugin-stats"
-			},
-			"options": {
-				"activate": true
 			}
 		},
         {
@@ -29,9 +32,13 @@
 			"pluginZipFile": {
 				"resource": "wordpress.org/plugins",
 				"slug": "icon-block"
-			},
-			"options": {
-				"activate": true
+			}
+		},
+		{
+			"step": "installTheme",
+			"themeZipFile": {
+				"resource": "wordpress.org/themes",
+				"slug": "twentytwentyfour"
 			}
 		},
 		{
