@@ -193,57 +193,7 @@
 		<dc:creator><![CDATA[admin]]></dc:creator>
 		<guid isPermaLink="false">https://playground.wordpress.net/scope:0.4692700474622631/?page_id=6</guid>
 		<description></description>
-		<content:encoded><![CDATA[<!-- wp:heading {"style":{"typography":{"fontStyle":"normal","fontWeight":"500"},"spacing":{"margin":{"top":"var:preset|spacing|40","bottom":"var:preset|spacing|40"}}},"fontFamily":"body"} -->
-<h2 class="wp-block-heading has-body-font-family" style="margin-top:var(--wp--preset--spacing--40);margin-bottom:var(--wp--preset--spacing--40);font-style:normal;font-weight:500">Block</h2>
-<!-- /wp:heading -->
-
-<!-- wp:group {"style":{"spacing":{"padding":{"top":"var:preset|spacing|30","bottom":"var:preset|spacing|30","left":"var:preset|spacing|30","right":"var:preset|spacing|30"}},"border":{"radius":"8px","color":"#dedede"}},"backgroundColor":"base-2","layout":{"type":"constrained"}} -->
-<div class="wp-block-group has-border-color has-base-2-background-color has-background" style="border-color:#dedede;border-radius:8px;padding-top:var(--wp--preset--spacing--30);padding-right:var(--wp--preset--spacing--30);padding-bottom:var(--wp--preset--spacing--30);padding-left:var(--wp--preset--spacing--30)"><!-- wp:group {"style":{"spacing":{"blockGap":"8px"}},"layout":{"type":"constrained"}} -->
-<div class="wp-block-group"><!-- wp:heading {"style":{"typography":{"fontStyle":"normal","fontWeight":"500"},"spacing":{"margin":{"top":"0","bottom":"0"}}},"fontSize":"large","fontFamily":"body"} -->
-<h2 class="wp-block-heading has-body-font-family has-large-font-size" style="margin-top:0;margin-bottom:0;font-style:normal;font-weight:500">Easy Plugin Stats</h2>
-<!-- /wp:heading -->
-
-<!-- wp:group {"style":{"spacing":{"blockGap":"4px"}},"layout":{"type":"flex","flexWrap":"nowrap","justifyContent":"space-between"}} -->
-<div class="wp-block-group"><!-- wp:group {"style":{"spacing":{"blockGap":"3px"}},"layout":{"type":"flex","flexWrap":"nowrap"}} -->
-<div class="wp-block-group"><!-- wp:outermost/plugin-stat {"slugs":["easy-plugin-stats"],"field":"last_updated","cache":"","prefix":"","suffix":"","prefixColor":"","textColor":"accent-3","fontSize":"small"} /-->
-
-<!-- wp:outermost/plugin-stat {"slugs":["icon-block"],"field":"five_rating","prefix":"(","suffix":"/5)","linkText":"Playground Preview","linkTarget":true,"style":{"elements":{"link":{"color":{"text":"var:preset|color|contrast-2"}}}},"textColor":"contrast-2","fontSize":"small"} /--></div>
-<!-- /wp:group -->
-
-<!-- wp:group {"style":{"spacing":{"blockGap":"4px"}},"layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"bottom"}} -->
-<div class="wp-block-group"><!-- wp:outermost/icon-block {"iconName":"wordpress-chartBar","width":"26px"} -->
-<div class="wp-block-outermost-icon-block"><div class="icon-container" style="width:26px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M11.25 5h1.5v15h-1.5V5zM6 10h1.5v10H6V10zm12 4h-1.5v6H18v-6z" clip-rule="evenodd"></path></svg></div></div>
-<!-- /wp:outermost/icon-block -->
-
-<!-- wp:outermost/plugin-stat {"slugs":["easy-plugin-stats"],"field":"downloaded","prefix":"","suffix":"+ downloads","linkText":"","linkTarget":true,"style":{"elements":{"link":{"color":{"text":"var:preset|color|contrast-2"}}}},"textColor":"contrast-2","fontSize":"small"} /--></div>
-<!-- /wp:group --></div>
-<!-- /wp:group --></div>
-<!-- /wp:group -->
-
-<!-- wp:paragraph {"style":{"spacing":{"margin":{"top":"var:preset|spacing|20","bottom":"var:preset|spacing|20"}}},"fontSize":"small"} -->
-<p class="has-small-font-size" style="margin-top:var(--wp--preset--spacing--20);margin-bottom:var(--wp--preset--spacing--20)">Easily display stats associated with plugins hosted on WordPress.org, such as the number of downloads, active installations, star rating, and more.</p>
-<!-- /wp:paragraph -->
-
-<!-- wp:buttons -->
-<div class="wp-block-buttons"><!-- wp:button {"metadata":{"bindings":{"url":{"source":"easy-plugin-stats/button","args":{"field":"download_link","slugs":[],"slug":"icon-block"}}}},"className":"is-style-fill"} -->
-<div class="wp-block-button is-style-fill"><a class="wp-block-button__link wp-element-button">Download</a></div>
-<!-- /wp:button -->
-
-<!-- wp:button {"metadata":{"bindings":{"url":{"source":"easy-plugin-stats/button","args":{"field":"live_preview_link","slug":"icon-block"}}}}} -->
-<div class="wp-block-button"><a class="wp-block-button__link wp-element-button">Live Preview</a></div>
-<!-- /wp:button --></div>
-<!-- /wp:buttons --></div>
-<!-- /wp:group -->
-
-<!-- wp:spacer {"height":"50px"} -->
-<div style="height:50px" aria-hidden="true" class="wp-block-spacer"></div>
-<!-- /wp:spacer -->
-
-<!-- wp:heading {"style":{"typography":{"fontStyle":"normal","fontWeight":"500"},"spacing":{"margin":{"top":"var:preset|spacing|40","bottom":"var:preset|spacing|40"}}},"fontFamily":"body"} -->
-<h2 class="wp-block-heading has-body-font-family" style="margin-top:var(--wp--preset--spacing--40);margin-bottom:var(--wp--preset--spacing--40);font-style:normal;font-weight:500">Button block variation</h2>
-<!-- /wp:heading -->
-
-<!-- wp:group {"style":{"spacing":{"padding":{"top":"var:preset|spacing|30","bottom":"var:preset|spacing|30","left":"var:preset|spacing|30","right":"var:preset|spacing|30"}},"border":{"radius":"8px","color":"#dedede"}},"backgroundColor":"base-2","layout":{"type":"constrained"}} -->
+		<content:encoded><![CDATA[<!-- wp:group {"style":{"spacing":{"padding":{"top":"var:preset|spacing|30","bottom":"var:preset|spacing|30","left":"var:preset|spacing|30","right":"var:preset|spacing|30"}},"border":{"radius":"8px","color":"#dedede"}},"backgroundColor":"base-2","layout":{"type":"constrained"}} -->
 <div class="wp-block-group has-border-color has-base-2-background-color has-background" style="border-color:#dedede;border-radius:8px;padding-top:var(--wp--preset--spacing--30);padding-right:var(--wp--preset--spacing--30);padding-bottom:var(--wp--preset--spacing--30);padding-left:var(--wp--preset--spacing--30)"><!-- wp:group {"style":{"spacing":{"blockGap":"8px"}},"layout":{"type":"constrained"}} -->
 <div class="wp-block-group"><!-- wp:heading {"style":{"typography":{"fontStyle":"normal","fontWeight":"500"},"spacing":{"margin":{"top":"0","bottom":"0"}}},"fontSize":"large","fontFamily":"body"} -->
 <h2 class="wp-block-heading has-body-font-family has-large-font-size" style="margin-top:0;margin-bottom:0;font-style:normal;font-weight:500">Easy Plugin Stats</h2>
@@ -279,11 +229,7 @@
 <div class="wp-block-button"><a class="wp-block-button__link wp-element-button">Live Preview</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons --></div>
-<!-- /wp:group -->
-
-<!-- wp:spacer {"height":"50px"} -->
-<div style="height:50px" aria-hidden="true" class="wp-block-spacer"></div>
-<!-- /wp:spacer -->]]></content:encoded>
+<!-- /wp:group -->]]></content:encoded>
 		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
 		<wp:post_id>6</wp:post_id>
 		<wp:post_date><![CDATA[2024-06-10 13:29:30]]></wp:post_date>
