@@ -1,136 +1,266 @@
-# Copyright (C) 2016 Easy Plugin Stats
-# This file is distributed under the same license as the Easy Plugin Stats package.
+# Copyright (C) 2024 Nick Diego
+# This file is distributed under the GPL-2.0-or-later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Easy Plugin Stats 1.0.0\n"
+"Project-Id-Version: Easy Plugin Stats 2.0.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/easy-plugin-stats\n"
-"POT-Creation-Date: 2016-06-28 01:40:41+00:00\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2016-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"POT-Creation-Date: 2024-06-10T11:10:17+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.7.1\n"
+"X-Domain: easy-plugin-stats\n"
 
-#: easy-plugin-stats.php:154 tinymce/popup.php:31
-msgid "Plugin Slug"
-msgstr ""
-
-#: easy-plugin-stats.php:155
-msgid "Plugin Slugs"
-msgstr ""
-
-#: easy-plugin-stats.php:156
-msgid "Enter your plugin's slug and choose the stat field you wish to display. For help, visit this plugin's %sdocumentation%s."
-msgstr ""
-
-#: easy-plugin-stats.php:157
-msgid "Enter any number of %sspace separated%s plugin slugs and choose the stat field you wish to display. For help, visit this plugin's %sdocumentation%s."
-msgstr ""
-
-#: easy-plugin-stats.php:158 tinymce/popup.php:45
-msgid "Show Advanced Settings"
-msgstr ""
-
-#: easy-plugin-stats.php:159
-msgid "Hide Advanced Settings"
-msgstr ""
-
-#: easy-plugin-stats.php:160
-msgid "You forgot to enter a plugin slug!"
-msgstr ""
-
-#: easy-plugin-stats.php:362
-msgid "out of 5 stars"
-msgstr ""
-
-#: easy-plugin-stats.php:465
-msgid "Documentation"
-msgstr ""
-
-#: tinymce/plugin-translations.php:22
-msgid "Insert Plugin Stats"
-msgstr ""
-
-#: tinymce/popup.php:10
+#. Plugin Name of the plugin
 msgid "Easy Plugin Stats"
 msgstr ""
 
-#: tinymce/popup.php:11
-msgid "Close"
+#. Description of the plugin
+msgid "Easily display stats associated with plugins hosted on WordPress.org."
 msgstr ""
 
-#: tinymce/popup.php:17
-msgid "Choose the type of stat you are looking to display. Either a stat from a single plugin, or aggregate stats from multiple plugins."
-msgstr ""
-
-#: tinymce/popup.php:20
-msgid "Stat Type"
-msgstr ""
-
-#: tinymce/popup.php:22
-msgid "Single"
-msgstr ""
-
-#: tinymce/popup.php:23
-msgid "Aggregate"
-msgstr ""
-
-#: tinymce/popup.php:37
-msgid "Stat Field"
-msgstr ""
-
-#: tinymce/popup.php:50
-msgid "Plugin data retrieved from WordPress.org is cached for 12 hours by default."
-msgstr ""
-
-#: tinymce/popup.php:53
-msgid "Cache Time"
-msgstr ""
-
-#: tinymce/popup.php:54
-msgid "Seconds"
-msgstr ""
-
-#: tinymce/popup.php:58
-msgid "Output valid HTML directly before or after the stat content. %sNote:%s Double quotes (i.e. \") will be replaced with single quotes to comply with shortcode markup."
-msgstr ""
-
-#: tinymce/popup.php:61
-msgid "Before HTML"
-msgstr ""
-
-#: tinymce/popup.php:67
-msgid "After HTML"
-msgstr ""
-
-#: tinymce/popup.php:79
-msgid "Cancel"
-msgstr ""
-
-#: tinymce/popup.php:82
-msgid "Reset"
-msgstr ""
-
-#: tinymce/popup.php:85
-msgid "Insert Shortcode"
-msgstr ""
-#. Plugin Name of the plugin/theme
-msgid "Easy Plugin Stats"
-msgstr ""
-
-#. Plugin URI of the plugin/theme
-msgid "https://www.nickdiego.com/plugins/easy-plugin-stats"
-msgstr ""
-
-#. Description of the plugin/theme
-msgid "Easily display stats from plugins hosted on WordPress.org"
-msgstr ""
-
-#. Author of the plugin/theme
+#. Author of the plugin
 msgid "Nick Diego"
 msgstr ""
 
-#. Author URI of the plugin/theme
-msgid "http://www.nickdiego.com"
+#. Author URI of the plugin
+msgid "https://www.nickdiego.com"
+msgstr ""
+
+#: easy-plugin-stats.php:35
+msgid "Plugin Button Binding"
+msgstr ""
+
+#: easy-plugin-stats.php:153
+msgid "Documentation"
+msgstr ""
+
+#: includes/get-field-output.php:43
+msgid "Plugin Homepage"
+msgstr ""
+
+#: includes/get-field-output.php:44
+#: build/editor/index.js:1
+msgid "Download"
+msgstr ""
+
+#: includes/get-field-output.php:45
+msgid "Live Previewdasd"
+msgstr ""
+
+#: includes/get-field-output.php:46
+msgid "Support"
+msgstr ""
+
+#: includes/get-field-output.php:47
+#: build/editor/index.js:1
+msgid "Reviews"
+msgstr ""
+
+#: includes/get-field-output.php:48
+msgid "Author Profile"
+msgstr ""
+
+#: includes/get-field-output.php:49
+msgid "Donate"
+msgstr ""
+
+#: includes/get-field-output.php:83
+msgid "out of 5 stars"
+msgstr ""
+
+#: build/blocks/plugin-stats/index.js:1
+msgid "Active installs"
+msgstr ""
+
+#: build/blocks/plugin-stats/index.js:1
+msgid "Downloaded"
+msgstr ""
+
+#: build/blocks/plugin-stats/index.js:1
+msgid "Name"
+msgstr ""
+
+#: build/blocks/plugin-stats/index.js:1
+msgid "Plugin Name"
+msgstr ""
+
+#: build/blocks/plugin-stats/index.js:1
+msgid "Version"
+msgstr ""
+
+#: build/blocks/plugin-stats/index.js:1
+msgid "Author"
+msgstr ""
+
+#: build/blocks/plugin-stats/index.js:1
+msgid "Plugin Author"
+msgstr ""
+
+#: build/blocks/plugin-stats/index.js:1
+msgid "Contributors"
+msgstr ""
+
+#: build/blocks/plugin-stats/index.js:1
+msgid "Tags"
+msgstr ""
+
+#: build/blocks/plugin-stats/index.js:1
+msgid "Requires"
+msgstr ""
+
+#: build/blocks/plugin-stats/index.js:1
+msgid "Tested up to"
+msgstr ""
+
+#: build/blocks/plugin-stats/index.js:1
+msgid "Number of reviews"
+msgstr ""
+
+#: build/blocks/plugin-stats/index.js:1
+msgid "Rating out of 100"
+msgstr ""
+
+#: build/blocks/plugin-stats/index.js:1
+msgid "Rating out of 5"
+msgstr ""
+
+#: build/blocks/plugin-stats/index.js:1
+msgid "Star rating"
+msgstr ""
+
+#: build/blocks/plugin-stats/index.js:1
+msgid "Last updated"
+msgstr ""
+
+#: build/blocks/plugin-stats/index.js:1
+msgid "Date added"
+msgstr ""
+
+#: build/blocks/plugin-stats/index.js:1
+msgid "Plugin homepage link"
+msgstr ""
+
+#: build/blocks/plugin-stats/index.js:1
+#: build/editor/index.js:1
+msgid "Download link"
+msgstr ""
+
+#: build/blocks/plugin-stats/index.js:1
+msgid "Live preview link"
+msgstr ""
+
+#: build/blocks/plugin-stats/index.js:1
+msgid "Support forum link"
+msgstr ""
+
+#: build/blocks/plugin-stats/index.js:1
+msgid "Reviews link"
+msgstr ""
+
+#: build/blocks/plugin-stats/index.js:1
+msgid "Author profile link"
+msgstr ""
+
+#: build/blocks/plugin-stats/index.js:1
+#: build/editor/index.js:1
+msgid "Donate link"
+msgstr ""
+
+#: build/blocks/plugin-stats/index.js:1
+msgid "An error occurred fetching plugin data."
+msgstr ""
+
+#: build/blocks/plugin-stats/index.js:1
+msgid "Prefix"
+msgstr ""
+
+#: build/blocks/plugin-stats/index.js:1
+msgid "Suffix"
+msgstr ""
+
+#: build/blocks/plugin-stats/index.js:1
+msgid "Settings"
+msgstr ""
+
+#: build/blocks/plugin-stats/index.js:1
+#: build/editor/index.js:1
+msgid "Plugin slug"
+msgstr ""
+
+#: build/blocks/plugin-stats/index.js:1
+msgid "The plugin slug on WordPress.org. For aggregate stats, separate multiple slugs with commas, spaces, or the Enter key."
+msgstr ""
+
+#: build/blocks/plugin-stats/index.js:1
+msgid "Stats for the corresponding plugin slug(s) could not be found. Check for typos and try again."
+msgstr ""
+
+#: build/blocks/plugin-stats/index.js:1
+msgid "Stat"
+msgstr ""
+
+#: build/blocks/plugin-stats/index.js:1
+msgid "Link Text"
+msgstr ""
+
+#: build/blocks/plugin-stats/index.js:1
+msgid "Open in new tab."
+msgstr ""
+
+#: build/blocks/plugin-stats/index.js:1
+#: build/editor/index.js:1
+msgid "Cache (seconds)"
+msgstr ""
+
+#: build/blocks/plugin-stats/index.js:1
+#: build/editor/index.js:1
+msgid "WordPress.org plugin data is cached for 43200 seconds (12 hours) by default."
+msgstr ""
+
+#: build/blocks/plugin-stats/index.js:1
+msgid "Plugin Stat"
+msgstr ""
+
+#: build/blocks/plugin-stats/index.js:1
+msgid "No contributors"
+msgstr ""
+
+#: build/editor/index.js:1
+msgid "Plugin Button"
+msgstr ""
+
+#: build/editor/index.js:1
+msgid "Prompt visitors to take action with a button-style link. This button links to resources associated with a plugin hosted on WordPress.org."
+msgstr ""
+
+#: build/editor/index.js:1
+msgid "Plugin homepage"
+msgstr ""
+
+#: build/editor/index.js:1
+msgid "Live preview"
+msgstr ""
+
+#: build/editor/index.js:1
+msgid "Support forum"
+msgstr ""
+
+#: build/editor/index.js:1
+msgid "Author profile"
+msgstr ""
+
+#: build/editor/index.js:1
+msgid "Link settings"
+msgstr ""
+
+#: build/editor/index.js:1
+msgid "The plugin slug on WordPress.org."
+msgstr ""
+
+#: build/editor/index.js:1
+msgid "Link to"
 msgstr ""
