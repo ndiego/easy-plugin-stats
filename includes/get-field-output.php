@@ -42,7 +42,7 @@ function get_field_output( $atts, $plugin_data, $single = true, $block = true ) 
 	$default_link_texts = array(
 		'homepage_link'     => __( 'Plugin Homepage', 'easy-plugin-stats' ),
 		'download_link'     => __( 'Download', 'easy-plugin-stats' ),
-		'live_preview_link' => __( 'Live Previewdasd', 'easy-plugin-stats' ),
+		'live_preview_link' => __( 'Live Preview', 'easy-plugin-stats' ),
 		'support_link'      => __( 'Support', 'easy-plugin-stats' ),
 		'reviews_link'      => __( 'Reviews', 'easy-plugin-stats' ),
 		'author_profile'    => __( 'Author Profile', 'easy-plugin-stats' ),
@@ -114,7 +114,7 @@ function get_field_output( $atts, $plugin_data, $single = true, $block = true ) 
 				$output = implode( ', ', $output_array );
 			}
 			break;
-		case 'homepage_link': // For backward compatibility.
+		case 'homepage_link':
 		case 'download_link':
 		case 'live_preview_link':
 		case 'support_link':
