@@ -24,11 +24,14 @@ function bindings_callback( $source_args ) {
 	}
 
 	$slug  = $source_args['slug'];
-	$field = $source_args['field'] ?? 'homepage_link';
 	$cache = $source_args['cache'] ?? null;
 
-	// Fetch the plugin data.
-	$plugin_data = get_remote_plugin_data( $slug, $cache );
+	if ( $slug ) {
+		// Fetch the plugin data.
+		$plugin_data = get_remote_plugin_data( $slug, $cache );
 
-	return get_field_output( $source_args, $plugin_data, true, false );
+		return get_field_output( $source_args, $plugin_data, true, false );
+	}
+
+	return null;
 }

@@ -18,10 +18,11 @@ import {
 } from '@wordpress/block-editor';
 import { createBlock, getDefaultBlockName } from '@wordpress/blocks';
 import {
+	CheckboxControl,
 	FormTokenField,
 	Notice,
 	SelectControl,
-	CheckboxControl,
+	Spinner,
 	__experimentalToolsPanel as ToolsPanel, // eslint-disable-line
 	__experimentalToolsPanelItem as ToolsPanelItem, // eslint-disable-line
 	__experimentalInputControl as InputControl, // eslint-disable-line
@@ -75,6 +76,7 @@ export default function Edit( props ) {
 		linkTarget,
 	} = attributes;
 	const [ pluginData, setPluginData ] = useState( {} );
+	const [ isLoading, setIsLoading ] = useState( false );
 	const [ error, setError ] = useState( null );
 	const isAggregate = slugs?.length > 1;
 
@@ -85,6 +87,7 @@ export default function Edit( props ) {
 		}
 
 		const fetchDataForPluginSlugs = async () => {
+			setIsLoading( true );
 			try {
 				const requests = slugs.map( ( slug ) =>
 					fetch(
@@ -93,8 +96,10 @@ export default function Edit( props ) {
 						.then( ( response ) => {
 							if ( ! response.ok ) {
 								throw new Error(
-									'An error occurred fetching plugin data.',
-									'easy-plugin-stats'
+									__(
+										'An error occurred fetching plugin data.',
+										'easy-plugin-stats'
+									)
 								);
 							}
 							return response.json();
@@ -113,6 +118,8 @@ export default function Edit( props ) {
 			} catch ( fetchError ) {
 				setError( fetchError.message );
 				setPluginData( {} );
+			} finally {
+				setIsLoading( false );
 			}
 		};
 
@@ -120,10 +127,6 @@ export default function Edit( props ) {
 	}, [ slugs ] );
 
 	const colorGradientSettings = useMultipleOriginColorsAndGradients();
-
-	// In WordPress <=6.2 this will return null, so default to true in those cases.
-	const hasColorsOrGradients =
-		colorGradientSettings?.hasColorsOrGradients ?? true;
 
 	// Define custom color settings.
 	const colorSettings = [
@@ -190,38 +193,37 @@ export default function Edit( props ) {
 					} }
 				/>
 			</BlockControls>
-			{ hasColorsOrGradients && (
-				<InspectorControls group="color">
-					{ colorSettings.map(
-						( {
-							colorLabel,
-							colorValue,
-							onChange,
-							resetAllFilter,
-						} ) => (
-							<ColorGradientSettingsDropdown
-								key={ `icon-block-color-${ colorLabel }` }
-								__experimentalIsRenderedInSidebar
-								settings={ [
-									{
-										label: colorLabel,
-										colorValue,
-										onColorChange: onChange,
-										isShownByDefault: false,
-										resetAllFilter,
-										enableAlpha: true,
-									},
-								] }
-								panelId={ clientId }
-								{ ...colorGradientSettings }
-							/>
-						)
-					) }
-				</InspectorControls>
-			) }
+			<InspectorControls group="color">
+				{ colorSettings.map(
+					( {
+						colorLabel,
+						colorValue,
+						onChange,
+						resetAllFilter,
+					} ) => (
+						<ColorGradientSettingsDropdown
+							key={ `icon-block-color-${ colorLabel }` }
+							__experimentalIsRenderedInSidebar
+							settings={ [
+								{
+									label: colorLabel,
+									colorValue,
+									onColorChange: onChange,
+									isShownByDefault: false,
+									resetAllFilter,
+									enableAlpha: true,
+								},
+							] }
+							panelId={ clientId }
+							{ ...colorGradientSettings }
+						/>
+					)
+				) }
+			</InspectorControls>
 			<InspectorControls group="settings">
 				<ToolsPanel
-					label={ __( 'Settings' ) }
+					className="outermost-plugin-stat__settings-panel"
+					label={ __( 'Settings', 'easy-plugin-stats' ) }
 					resetAll={ () =>
 						setAttributes( {
 							field: 'active_installs',
@@ -239,7 +241,7 @@ export default function Edit( props ) {
 					} }
 				>
 					<ToolsPanelItem
-						label={ __( 'Plugin slug' ) }
+						label={ __( 'Plugin slug', 'easy-plugin-stats' ) }
 						hasValue={ () => slugs.length > 0 }
 						onDeselect={ () => {
 							setError(); // Clear any errors.
@@ -255,13 +257,25 @@ export default function Edit( props ) {
 								setAttributes( { slugs: value } );
 
 								// If multiple slugs are entered, reset the field value.
-								if ( value.length > 1 ) {
+								if (
+									value.length > 1 &&
+									field !== 'active_installs' &&
+									field !== 'downloaded'
+								) {
 									setAttributes( {
 										field: 'active_installs',
 									} );
 								}
 							} }
+							tokenizeOnSpace={ true }
+							__experimentalShowHowTo={ false }
 						/>
+						<p className='components-base-control__help'>
+							{ __( 
+								'The plugin slug on WordPress.org. For aggregate stats, separate multiple slugs with commas, spaces, or the Enter key.', 
+								'easy-plugin-stats' 
+							) }
+						</p>
 						{ error && (
 							<Notice status="error" isDismissible={ false }>
 								{ __(
@@ -272,7 +286,7 @@ export default function Edit( props ) {
 						) }
 					</ToolsPanelItem>
 					<ToolsPanelItem
-						label={ __( 'Stat' ) }
+						label={ __( 'Stat', 'easy-plugin-stats' ) }
 						hasValue={ () => field && field !== 'active_installs' }
 						onDeselect={ () => setAttributes( { field: '' } ) }
 						isShownByDefault
@@ -344,46 +358,52 @@ export default function Edit( props ) {
 				</ToolsPanel>
 			</InspectorControls>
 			<p { ...blockProps }>
-				{ ( isSelected || prefix ) && (
-					<RichText
-						identifier="prefix"
-						allowedFormats={ ALLOWED_FORMATS }
-						className="wp-block-easy-plugin-stats__prefix"
-						aria-label={ __( 'Prefix', 'easy-plugin-stats' ) }
-						placeholder={
-							__( 'Prefix', 'easy-plugin-stats' ) + ' '
-						}
-						value={ prefix }
-						style={ { color: prefixColor || 'currentColor' } }
-						onChange={ ( value ) =>
-							setAttributes( { prefix: value } )
-						}
-						tagName="span"
-					/>
-				) }
-				<span className="stat-container" onClick={ preventLinkClicks }>
-					{ getFieldOutput( attributes, pluginData, error ) }
+				<span class="wp-block-outermost-plugin-stat__container">
+					{ ( isSelected || prefix ) && (
+						<RichText
+							identifier="prefix"
+							allowedFormats={ ALLOWED_FORMATS }
+							className="wp-block-easy-plugin-stats__prefix"
+							aria-label={ __( 'Prefix', 'easy-plugin-stats' ) }
+							placeholder={
+								__( 'Prefix', 'easy-plugin-stats' ) + ' '
+							}
+							value={ prefix }
+							style={ { color: prefixColor || 'currentColor' } }
+							onChange={ ( value ) =>
+								setAttributes( { prefix: value } )
+							}
+							tagName="span"
+						/>
+					) }
+					<span className="stat-container" onClick={ preventLinkClicks }>
+						{ isLoading ? (
+							<Spinner />
+						) : (
+							getFieldOutput( attributes, pluginData, error )
+						) }
+					</span>
+					{ ( isSelected || suffix ) && (
+						<RichText
+							identifier="suffix"
+							allowedFormats={ ALLOWED_FORMATS }
+							className="wp-block-post-terms__suffix"
+							aria-label={ __( 'Suffix', 'easy-plugin-stats' ) }
+							placeholder={ ' ' + __( 'Suffix', 'easy-plugin-stats' ) }
+							value={ suffix }
+							style={ { color: suffixColor || 'currentColor' } }
+							onChange={ ( value ) =>
+								setAttributes( { suffix: value } )
+							}
+							tagName="span"
+							__unstableOnSplitAtEnd={ () =>
+								insertBlocksAfter(
+									createBlock( getDefaultBlockName() )
+								)
+							}
+						/>
+					) }
 				</span>
-				{ ( isSelected || suffix ) && (
-					<RichText
-						identifier="suffix"
-						allowedFormats={ ALLOWED_FORMATS }
-						className="wp-block-post-terms__suffix"
-						aria-label={ __( 'Suffix' ) }
-						placeholder={ ' ' + __( 'Suffix' ) }
-						value={ suffix }
-						style={ { color: suffixColor || 'currentColor' } }
-						onChange={ ( value ) =>
-							setAttributes( { suffix: value } )
-						}
-						tagName="span"
-						__unstableOnSplitAtEnd={ () =>
-							insertBlocksAfter(
-								createBlock( getDefaultBlockName() )
-							)
-						}
-					/>
-				) }
 			</p>
 		</>
 	);

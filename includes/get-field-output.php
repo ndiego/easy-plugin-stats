@@ -12,7 +12,7 @@ namespace EasyPluginStats;
  *
  * @since 2.0.0
  *
- * @param array   $atts         An array shortcode attributes.
+ * @param array   $atts         An array shortcode or block attributes.
  * @param array   $plugin_data  An array of all retrieved plugin data from wp.org.
  * @param boolean $single       Is it a single plugin (true) or an aggregate (false).
  * @param boolean $block        Is the output for a block (true) or binding/shortcode (false).
@@ -80,7 +80,7 @@ function get_field_output( $atts, $plugin_data, $single = true, $block = true ) 
 			$output = '';
 			if ( ! empty( $rating ) ) {
 				$five_rating = ( $rating / 100 ) * 5;
-				$output      = '<span class="star-rating-container" title="' . esc_html( $five_rating ) . ' ' . __( 'out of 5 stars', 'easy-plugin-stats' ) . '">';
+				$output      = '<span class="star-rating__container" title="' . esc_html( $five_rating ) . ' ' . __( 'out of 5 stars', 'easy-plugin-stats' ) . '">';
 				$filledStars = floor( $five_rating );
 				$halfStar    = round( $five_rating - $filledStars, 1 );
 
@@ -114,7 +114,7 @@ function get_field_output( $atts, $plugin_data, $single = true, $block = true ) 
 				$output = implode( ', ', $output_array );
 			}
 			break;
-		case 'homepage_link':
+		case 'homepage_link': // For backward compatibility.
 		case 'download_link':
 		case 'live_preview_link':
 		case 'support_link':
@@ -125,7 +125,7 @@ function get_field_output( $atts, $plugin_data, $single = true, $block = true ) 
 			$output = '';
 
 			if ( $link ) {
-				$default_link_text = $default_link_texts[ $atts['field'] ] ?? __( ucfirst( str_replace( '_', ' ', $atts['field'] ) ), 'easy-plugin-stats' );
+				$default_link_text = $default_link_texts[ $atts['field'] ] ?? ucfirst( str_replace( '_', ' ', $atts['field'] ) );
 				$output            = $block ? format_link( $atts, $link, $default_link_text ) : esc_url( $link );
 			}
 			break;

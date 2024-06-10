@@ -1,10 +1,10 @@
 <?php
 /**
  * Plugin Name:       Easy Plugin Stats
- * Description:       Easily display stats from plugins hosted on WordPress.org.
- * Requires at least: 6.3
- * Requires PHP:      7.0
- * Version:           1.0.0
+ * Description:       Easily display stats associated with plugins hosted on WordPress.org.
+ * Requires at least: 6.5
+ * Requires PHP:      8.0
+ * Version:           2.0.0
  * Author:            Nick Diego
  * Author URI:        https://www.nickdiego.com
  * License:           GPL-2.0-or-later
@@ -40,6 +40,27 @@ function register_plugin_stats_block_and_block_bindings() {
 add_action( 'init', __NAMESPACE__ . '\register_plugin_stats_block_and_block_bindings' );
 
 /**
+ * Enqueue Editor assets.
+ */
+function enqueue_block_editor_assets() {
+	$asset_file  = include plugin_dir_path( __FILE__ ) . 'build/editor/index.asset.php';
+
+	wp_enqueue_script(
+		'easy-plugin-stats-editor-scripts',
+		plugin_dir_url( __FILE__ ) . 'build/editor/index.js',
+		$asset_file['dependencies'],
+		$asset_file['version']
+	);
+
+    wp_set_script_translations(
+        'easy-plugin-stats-editor-scripts',
+        'easy-plugin-stats',
+        plugin_dir_path( __FILE__ ) . 'languages'
+    );
+}
+add_action( 'enqueue_block_editor_assets', __NAMESPACE__ . '\enqueue_block_editor_assets' );
+
+/**
  * Renders the plugin stats block.
  *
  * @param array $attributes Block attributes.
@@ -58,6 +79,8 @@ function render_block_outermost_plugin_stats( $attributes ) {
 	$link_text   = $attributes['link_text'] ?? null;
 	$link_target = $attributes['link_target'] ?? null;
 	$text_align  = $attributes['textAlign'] ?? null;
+	$prefixColor = $attributes['prefixColor'] ?? 'currentColor';
+	$suffixColor = $attributes['suffixColor'] ?? 'currentColor';
 
 	$classes = array( 'field-' . $field );
 	if ( $text_align ) {
@@ -69,8 +92,9 @@ function render_block_outermost_plugin_stats( $attributes ) {
 
 	$wrapper_attributes = get_block_wrapper_attributes( array( 'class' => implode( ' ', $classes ) ) );
 
-	$prefix_output = $prefix ? '<span class="wp-block-post-terms__prefix">' . esc_html( $prefix ) . '</span>' : '';
-	$suffix_output = $suffix ? '<span class="wp-block-post-terms__suffix">' . esc_html( $suffix ) . '</span>' : '';
+	// @TODO Ideally the color should be set as a class if a theme color is chosen, not the hardcoded hex value.
+	$prefix_output = $prefix ? '<span class="wp-block-post-terms__prefix" style="color:' . $prefixColor . '">' . esc_html( $prefix ) . '</span>' : '';
+	$suffix_output = $suffix ? '<span class="wp-block-post-terms__suffix" style="color:' . $suffixColor . '">' . esc_html( $suffix ) . '</span>' : '';
 
 	$field_output = '';
 	if ( count( $slugs ) === 1 ) {
@@ -82,16 +106,21 @@ function render_block_outermost_plugin_stats( $attributes ) {
 			$plugin_data      = get_remote_plugin_data( $slug, $cache );
 			$aggregate_data[] = get_field_output( $attributes, $plugin_data, false, false );
 		}
-		$field_output = format_numbers( $aggregate_data );
+		$field_output = format_numbers( array_sum( $aggregate_data ) );
+	}
+
+	// Don't render the block if the field(s) have no output.
+	if ( ! $field_output ) {
+		return null;
 	}
 
 	$output  = $prefix_output;
 	$output .= $field_output;
 	$output .= $suffix_output;
 
-	$html  = '<div ' . $wrapper_attributes . '>';
+	$html  = '<p ' . $wrapper_attributes . '><span class="wp-block-outermost-plugin-stats__container">';
 	$html .= $field === 'star_rating' ? $output : wp_kses_post( $output );
-	$html .= '</div>';
+	$html .= '</span></p>';
 
 	return $html;
 }
@@ -134,7 +163,3 @@ require_once __DIR__ . '/includes/get-remote-plugin-data.php';
 require_once __DIR__ . '/includes/shortcode.php';
 require_once __DIR__ . '/includes/block-bindings.php';
 require_once __DIR__ . '/includes/utils.php';
-
-
-// add_action( 'wp_loaded', array( $this, 'init') );
-// load_plugin_textdomain( 'easy-plugin-stats', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );

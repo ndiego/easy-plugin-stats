@@ -50,9 +50,12 @@ function render_shortcode( $atts ) {
             'screenshots',
             'changelog',
             'faq',
-            'download_link',
-            'support_link',
             'tags',
+            'homepage_link',
+            'download_link',
+            'live_preview_link',
+            'support_link',
+            'reviews_link',
             'donate_link',
         ),
         'aggregate' => array(
@@ -77,8 +80,8 @@ function render_shortcode( $atts ) {
 
     } else if ( $atts['type'] == 'aggregate' ) {
         $field_data    = array();
-        $cleaned_slugs = preg_replace( '/[^\w\-\s]/', ' ', $atts['slug'] ); // remove all characters that are not allowed.
-        $cleaned_slugs = preg_replace( '/\s\s+/', ' ', $cleaned_slugs ); // trim all excess whitepace.
+        $cleaned_slugs = preg_replace( '/[^\w\-\s]/', ' ', $atts['slug'] ); // Remove all characters that are not allowed.
+        $cleaned_slugs = preg_replace( '/\s\s+/', ' ', $cleaned_slugs ); // Trim all excess whitepace.
         $slugs         = explode( ' ', $cleaned_slugs );
 
         foreach ( $slugs as $slug ) {
@@ -106,17 +109,17 @@ function render_shortcode_inline_styles() {
 	if ( shortcode_exists( 'eps' ) ) {
 
 		$shortcode_css = '
-			.star-rating-container {
+			.star-rating__container {
 				display: inline-flex;
 				align-items: center;
 				gap: 0.4em;
 			}
-			.star-rating-container svg {
-				margin-inline-start: -0.8em;
+			.star-rating__container svg {
+				margin-inline-start: -0.9em;
 				fill: currentColor;
 				width: 2em;
 			}
-			.star-rating-container svg:first-child {
+			.star-rating__container svg:first-child {
 				margin-inline-start: 0;
 			}
 		';

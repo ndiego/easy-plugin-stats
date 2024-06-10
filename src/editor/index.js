@@ -16,7 +16,12 @@ import Panel from './panel';
  */
 function addInspectorControls( BlockEdit ) {
 	return ( props ) => {
-		if ( props?.name === 'core/button' ) {
+		// Bail early if the Button block does not have the correct binding.
+		if (
+			props?.name === 'core/button' &&
+			props?.attributes?.metadata?.bindings?.url?.source ===
+				'easy-plugin-stats/button'
+		) {
 			return (
 				<>
 					<BlockEdit { ...props } />
