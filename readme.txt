@@ -15,67 +15,75 @@ Easily display stats associated with plugins hosted on WordPress.org.
 
 Easily display stats associated with plugins hosted on WordPress.org, such as the number of downloads, active installations, star rating, and more.
 
-**Disclaimer:** This plugin is geared towards developers with plugins in the WordPress.org repository and anyone else who wants to easily display information about a plugin that is in the repository. Don't fit this criteria? Then this plugin will probably not be of much use to you. 
+This plugin was designed for developers with plugins in the WordPress.org repository (and anyone else) who want to display their plugin information on an external site. It uses the WordPress Plugins API to fetch the raw data, which can then be inserted into a page or post using a custom block, a Button block variation, or a shortcode. You can display stats from a single plugin, or aggregate stats from multiple plugins.
 
-This plugin was designed to be as simple as possible while still being very powerful. There is no settings page, just one custom block, a block variation, and a shortcode. You can display stats from a single plugin, or aggregate stats from multiple plugins. 
+=== Available Stats === 
 
-= Available Fields =
+You can display nearly all of the fields returned by the WordPress.org Plugins API, as well as a few extra options. There are currently 28 to choose from.
 
-You can display any of the fields returned by the WordPress.org plugins API, as well as a few extra options. There are currently 28 options.
+**Single Stats**
 
-* Active Installs
-* Times Downloaded
-* Plugin Name
-* Plugin Slug
+* Active installs
+* Times downloaded
+* Plugin name
+* Plugin slug
 * Version
 * Author
-* Author Profile Link
 * Contributors
+* Tags
 * Requires
 * Tested
-* Compatibility
+* Number of reviews
 * Rating out of 100
 * Rating out of 5
-* Star Rating
-* Number of Reviews
-* Last Updated
-* Date Added
-* Plugin Homepage Link
-* Description
-* Installation
-* Screenshots
-* Change Log
-* FAQ
-* Download Link
-* Support Link
-* Tags
-* Donate Link
+* Star rating
+* Last updated
+* Date added
+* Plugin homepage link
+* Download link
+* Live preview link
+* Support forum link
+* Reviews link
+* Author profile link
+* Donate link
+* Description (Shortcode only)
+* Installation (Shortcode only)
+* Screenshots (Shortcode only)
+* Changelog (Shortcode only)
+* FAQ (Shortcode only)
 
-You can also display aggregate stats from multiple plugins. There are two supported aggregate fields.
+**Aggregate Stats**
 
-* Active Installs
-* Times Downloaded
+You can display aggregate stats from multiple plugins using two supported fields.
 
-If you have questions or would like to request additional features please let me know in the plugin support forum.
+* Active installs
+* Times downloaded
 
-= What Easy Plugin Stats Doesn’t Do =
+=== Stay Connected ===
 
-If you are looking for download charts/graphs, rating graphic breakdowns, etc. you will be disappointed. Except for the Star Rating option, this plugin just returns the raw data from the WordPress.org API. Styling is up to you. 
+* [View on GitHub](https://github.com/ndiego/easy-plugin-stats)
+* [Visit plugin project page](https://nickdiego.com/projects/easy-plugin-stats/)
+* [Follow on Twitter](https://twitter.com/nickmdiego)
 
 == Installation ==
 
-1. You have a couple options:
-	* Go to Plugins->Add New and search for "Easy Plugin Stats”. Once found, click "Install".
-	* Download the folder from WordPress.org and zip the folder. Then upload via Plugins->Add New->Upload.
-2. Activate the plugin through the 'Plugins' menu in WordPress.
-3. From the 'Plugins' page, head to a post/page and check out the new button in your editor.
-4. If you have any implementation questions, please post in the plugin support forum.
+1. You have a couple of options:
+	* Go to Plugins &rarr; Add New and search for "Easy Plugin Stats". Once found, click "Install".
+	* Download the Easy Plugin Stats from WordPress.org and make sure the folder is zipped. Then upload via Plugins &rarr; Add New &rarr; Upload.
+2. Activate the plugin through the 'Plugins' screen in WordPress.
+3. Search for the block within the Block Editor (Gutenberg) and begin using it. See the [FAQs](https://wordpress.org/plugins/easy-plugin-stats/#faq) for additional usage information.
 
 == Frequently Asked Questions ==
 
 = How do I use the Plugin Stat block? = 
 
-Search for "Plugin Stat" in the block inserter and add it to a page or post just like you would any other block. In the inspector, enter the plugin slug and choose the stat you wish to display.
+Search for "Plugin Stat" in the block inserter and add it to a post just like you would any other block. In the inspector, enter the plugin slug and choose the stat you wish to display.
+
+The slug can be retrieved from the plugin's URL on WordPress.org. For example, this plugin's slug is `easy-plugin-stats`.
+
+= How do I use the Plugin Button variation for the Button block? = 
+
+Insert a WordPress Buttons block, then click on the `+` inserter or open the block inserter. Besides the default Button block, you'll see the Plugin Button variation. Insert the Plugin Button into the Buttons block. In the inspector, enter the plugin slug and choose the link you wish to connect to the button.
 
 The slug can be retrieved from the plugin's URL on WordPress.org. For example, this plugin's slug is `easy-plugin-stats`.
 
@@ -107,26 +115,28 @@ The available stat fields for `single` are:
 * `slug` – Plugin Slug
 * `version` – Version
 * `author` – Author
-* `author_profile` – Author profile link
 * `contributors` – Contributors
+* `tags` – Tags
 * `requires` – Requires
 * `tested` – Tested
+* `num_ratings` – Number of reviews
 * `rating` – Rating out of 100
 * `five_rating` – Rating out of 5
 * `star_rating` – Star rating
-* `num_ratings` – Number of reviews
 * `last_updated` – Last updated
 * `added` – Date added
-* `homepage` – Plugin homepage link
+* `homepage_link` – Plugin homepage link
+* `download_link` – Download link
+* `live_preview_link` – Live preview link
+* `support_link` – Support forum link
+* `reviews_link` – Reviews link
+* `author_profile` – Author profile link
+* `donate_link` – Donate link
 * `description` – Description
 * `installation` – Installation
 * `screenshots` – Screenshots
 * `changelog` – Changelog
 * `faq` – FAQ
-* `download_link` – Download link
-* `support_link` – Support link
-* `tags` – Tags
-* `donate_link` – Donate link
 
 The available stat fields for `aggregate` are:
 
@@ -135,7 +145,7 @@ The available stat fields for `aggregate` are:
 
 **cache** 
 
-*Optional.* The shortcode requests your plugin's stats from WordPress.org. To limit the number of requests made, response data is cached. This optional setting allows you to adjust the cache time as you see fit. Accepts any positive integer (representing seconds) greater than 5. Defaults to "43200" (i.e. 12 hours).
+*Optional.* The shortcode requests your plugin's stats from WordPress.org. To limit the number of requests made, response data is cached. This optional setting allows you to adjust the cache time as you see fit. Accepts any positive integer (representing seconds) greater than `5`. Defaults to `43200` (i.e. 12 hours).
 
 **before**
 
@@ -145,15 +155,11 @@ The available stat fields for `aggregate` are:
 
 *Optional.* Optional HTML to be printed after the field's output. Accepts any valid HTML, but note that all double quotes will be replaced with single quotes to adhere to the required shortcode markup. Defaults to `null`.
 
-= Where do I go to get more help? =
-
-If you have additional questions or would like to request additional features please let me know in the plugin [support forum](https://wordpress.org/support/plugin/easy-plugin-stats).
-
 == Screenshots ==
 
-1. A screenshot of the Easy Plugin Stats button in editor and some sample shortcodes.
-2. A screenshot of the Easy Plugin Stats popup which helps you generate shortcodes on the fly.
-3. A screenshot of the front end, which shows the output of the sample shortcodes in the first screenshot.
+1. A screenshot of the Plugin Stat block in Editor, which displays the total downloads for the Easy Plugin Stats plugin.
+2. A screenshot of the Plugin Button block variation in Editor, which is connected to the Easy Plugin Stats download link.
+3. A screenshot of the shortcode implementation in the Editor.
 
 == Changelog ==
 
@@ -162,7 +168,7 @@ If you have additional questions or would like to request additional features pl
 **Added**
 
 * Add the Plugin Stat block.
-* Add the Plugin Link block variation for the Button block.
+* Add the Plugin Button block variation for the Button block.
 
 **Changed**
 
