@@ -203,7 +203,7 @@
 <div class="wp-block-group"><!-- wp:group {"style":{"spacing":{"blockGap":"3px"}},"layout":{"type":"flex","flexWrap":"nowrap"}} -->
 <div class="wp-block-group"><!-- wp:outermost/plugin-stat {"slugs":["easy-plugin-stats"],"field":"star_rating","cache":"","prefix":"","suffix":"","prefixColor":"","textColor":"accent-3","fontSize":"small"} /-->
 
-<!-- wp:outermost/plugin-stat {"slugs":["icon-block"],"field":"five_rating","prefix":"(","suffix":"/5)","linkText":"Playground Preview","linkTarget":true,"style":{"elements":{"link":{"color":{"text":"var:preset|color|contrast-2"}}}},"textColor":"contrast-2","fontSize":"small"} /--></div>
+<!-- wp:outermost/plugin-stat {"slugs":["easy-plugin-stats"],"field":"five_rating","prefix":"(","suffix":"/5)","linkText":"Playground Preview","linkTarget":true,"style":{"elements":{"link":{"color":{"text":"var:preset|color|contrast-2"}}}},"textColor":"contrast-2","fontSize":"small"} /--></div>
 <!-- /wp:group -->
 
 <!-- wp:group {"style":{"spacing":{"blockGap":"4px"}},"layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"bottom"}} -->
@@ -221,11 +221,11 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:buttons -->
-<div class="wp-block-buttons"><!-- wp:button {"metadata":{"bindings":{"url":{"source":"easy-plugin-stats/button","args":{"field":"download_link","slugs":[],"slug":"icon-block"}}}},"className":"is-style-fill"} -->
+<div class="wp-block-buttons"><!-- wp:button {"metadata":{"bindings":{"url":{"source":"easy-plugin-stats/button","args":{"field":"download_link","slugs":[],"slug":"easy-plugin-stats"}}}},"className":"is-style-fill"} -->
 <div class="wp-block-button is-style-fill"><a class="wp-block-button__link wp-element-button">Download</a></div>
 <!-- /wp:button -->
 
-<!-- wp:button {"metadata":{"bindings":{"url":{"source":"easy-plugin-stats/button","args":{"field":"live_preview_link","slug":"icon-block"}}}}} -->
+<!-- wp:button {"metadata":{"bindings":{"url":{"source":"easy-plugin-stats/button","args":{"field":"live_preview_link","slug":"easy-plugin-stats"}}}}} -->
 <div class="wp-block-button"><a class="wp-block-button__link wp-element-button">Live Preview</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons --></div>
