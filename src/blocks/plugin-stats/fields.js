@@ -123,23 +123,9 @@ export const linkedFields = fields
 	.filter( ( field ) => field.type === 'link' )
 	.map( ( field ) => field.value );
 
-// export const fieldDefaults = fields
-// 	.filter( ( field ) => !! field.default )
-// 	.map( ( field ) => {
-// 		return { [`${ field.value }`]: field.default }
-// 	} );
-
 export const fieldDefaults = fields
 	.filter( ( field ) => !! field.default )
 	.reduce( ( acc, field ) => {
 		acc[ field.value ] = field.default;
 		return acc;
 	}, {} );
-
-// export const fieldDefaults = fields
-// 	.filter( ( field ) => !! field.default )
-// 	.forEach( ( field ) => {
-// 		return
-// 			fieldDefaults[ field.value ] = field.default;
-
-// 	} );
