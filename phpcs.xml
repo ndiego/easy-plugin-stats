@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<ruleset name="BlockVisibility">
+<ruleset name="EasyPluginStats">
 	<description>Rules for Easy Plugin Stats</description>
 
     <arg name="extensions" value="php" />
@@ -47,6 +47,7 @@
 		<properties>
 			<property name="prefixes" type="array">
 				<element value="eps"/>
+				<element value="EasyPluginStats"/>
 				<element value="Easy_Plugin_Stats"/>
 			</property>
 		</properties>

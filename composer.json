@@ -1,6 +1,6 @@
 {
 	"name": "outermost/easy-plugin-stats",
-	"description": "Easily display stats about plugins that reside in the WordPress.org repository.",
+	"description": "Easily display stats associated with plugins hosted on WordPress.org.",
 	"type": "wordpress-plugin",
 	"license": "GPL-2.0-or-later",
 	"require": {

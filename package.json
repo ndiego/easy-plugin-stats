@@ -2,17 +2,13 @@
   "name": "easy-plugin-stats",
   "version": "2.0.0",
   "description": "Easily display stats associated with plugins hosted on WordPress.org.",
+  "author": "Nick Diego",
   "main": "build/index.js",
+  "license": "GPL-2.0-or-later",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ndiego/easy-plugin-stats.git"
   },
-  "author": "Nick Diego",
-  "license": "GPL-2.0-or-later",
-  "bugs": {
-    "url": "https://github.com/ndiego/easy-plugin-stats/issues"
-  },
-  "homepage": "https://github.com/ndiego/easy-plugin-stats#readme",
   "scripts": {
     "build": "wp-scripts build",
     "format": "wp-scripts format",
@@ -23,13 +19,13 @@
     "start": "wp-scripts start",
     "packages-update": "wp-scripts packages-update"
   },
+  "dependencies": {
+    "classnames": "^2.5.1"
+  },
   "devDependencies": {
     "@wordpress/icons": "^9.48.0",
     "@wordpress/scripts": "^27.8.0",
     "path": "^0.12.7",
     "webpack-remove-empty-scripts": "^1.0.4"
-  },
-  "dependencies": {
-    "classnames": "^2.5.1"
   }
 }
