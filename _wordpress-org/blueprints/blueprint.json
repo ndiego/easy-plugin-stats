@@ -2,11 +2,11 @@
 	"$schema": "https://playground.wordpress.net/blueprint-schema.json",
 	"landingPage": "/wp-admin/post.php?post=6&action=edit",
 	"login": true,
-    "features": {
+	"features": {
 		"networking": true
 	},
 	"steps": [
-        {
+		{
 			"step": "updateUserMeta",
 			"meta": {
 				"admin_color": "modern",
@@ -27,7 +27,7 @@
 				"slug": "easy-plugin-stats"
 			}
 		},
-        {
+		{
 			"step": "installPlugin",
 			"pluginZipFile": {
 				"resource": "wordpress.org/plugins",
