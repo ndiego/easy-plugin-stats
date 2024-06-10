@@ -32,7 +32,7 @@ function register_plugin_stats_block_and_block_bindings() {
 	register_block_bindings_source(
 		'easy-plugin-stats/button',
 		array(
-			'label'              => __( 'Plugin Link Binding', 'easy-plugin-stats' ),
+			'label'              => __( 'Plugin Button Binding', 'easy-plugin-stats' ),
 			'get_value_callback' => __NAMESPACE__ . '\bindings_callback',
 		)
 	);
