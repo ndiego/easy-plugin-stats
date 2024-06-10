@@ -1,0 +1,33 @@
+/**
+ * The following styles get applied inside the editor only.
+ */
+.wp-block-outermost-plugin-stat {
+    [data-placeholder]:after {
+        content: attr(data-placeholder)
+    }
+
+    // This container is only needed in the Editor.
+    .stat-container {
+        display: inline-flex;
+    }
+}
+
+.outermost-plugin-stat__settings-panel {
+
+    .components-base-control__help {
+        margin-top: calc(8px);
+        margin-bottom: 0px;
+        font-size: 12px;
+        font-style: normal;
+        color: rgb(117, 117, 117);
+    }
+
+    .components-notice {
+        margin-top: 12px;
+        padding-bottom: 8px;
+
+        .components-notice__content {
+            margin-right: 0;
+        }
+    }
+}

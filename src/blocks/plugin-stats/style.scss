@@ -1,0 +1,30 @@
+ .wp-block-outermost-plugin-stat {
+
+    &.field-star_rating {
+        line-height: 0;
+
+        .wp-block-outermost-plugin-stat__container {
+            display: inline-flex;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+    }
+
+	.star-rating__container {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4em;
+        
+        svg {
+            -webkit-margin-start: -0.9em;
+            margin-inline-start: -0.9em;
+            fill: currentColor;
+            width: 2em;
+
+            &:first-child {
+                -webkit-margin-start: 0;
+                margin-inline-start: 0;
+            }
+        }
+    }
+}
