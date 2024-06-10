@@ -14,30 +14,25 @@ export default function Panel( props ) {
 	const { attributes, setAttributes } = props;
 	const { metadata } = attributes;
 
-	// Bail early if the Button block does not have the correct binding.
-	if ( metadata?.bindings?.url?.source !== 'easy-plugin-stats/button' ) {
-		return null;
-	}
-
 	const pluginSlug = metadata?.bindings?.url?.args?.slug ?? '';
 	const field = metadata?.bindings?.url?.args?.field ?? 'download';
 	const cache = metadata?.bindings?.url?.args?.cache ?? '';
 
 	const fields = [
 		{
-			label: __( 'Plugin Homepage', 'easy-plugin-stats' ),
+			label: __( 'Plugin homepage', 'easy-plugin-stats' ),
 			value: 'homepage_link',
 		},
 		{
-			label: __( 'Download Link', 'easy-plugin-stats' ),
+			label: __( 'Download link', 'easy-plugin-stats' ),
 			value: 'download_link',
 		},
 		{
-			label: __( 'Live Preview', 'easy-plugin-stats' ),
+			label: __( 'Live preview', 'easy-plugin-stats' ),
 			value: 'live_preview_link',
 		},
 		{
-			label: __( 'Support Forum', 'easy-plugin-stats' ),
+			label: __( 'Support forum', 'easy-plugin-stats' ),
 			value: 'support_link',
 		},
 		{
@@ -45,11 +40,11 @@ export default function Panel( props ) {
 			value: 'reviews_link',
 		},
 		{
-			label: __( 'Author Profile', 'easy-plugin-stats' ),
+			label: __( 'Author profile', 'easy-plugin-stats' ),
 			value: 'author_profile',
 		},
 		{
-			label: __( 'Donate Link', 'easy-plugin-stats' ),
+			label: __( 'Donate link', 'easy-plugin-stats' ),
 			value: 'donate_link',
 		},
 	];
@@ -110,7 +105,7 @@ export default function Panel( props ) {
 					isShownByDefault
 				>
 					<InputControl
-						label={ __( 'Plugin Slug', 'easy-plugin-stats' ) }
+						label={ __( 'Plugin slug', 'easy-plugin-stats' ) }
 						value={ pluginSlug }
 						onChange={ ( value ) =>
 							setBindingArgs( 'slug', value )
