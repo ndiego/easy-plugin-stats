@@ -283,46 +283,6 @@
 
 <!-- wp:spacer {"height":"50px"} -->
 <div style="height:50px" aria-hidden="true" class="wp-block-spacer"></div>
-<!-- /wp:spacer -->
-
-<!-- wp:heading {"style":{"typography":{"fontStyle":"normal","fontWeight":"500"},"spacing":{"margin":{"top":"var:preset|spacing|40","bottom":"var:preset|spacing|40"}}},"fontFamily":"body"} -->
-<h2 class="wp-block-heading has-body-font-family" style="margin-top:var(--wp--preset--spacing--40);margin-bottom:var(--wp--preset--spacing--40);font-style:normal;font-weight:500">Shortcode</h2>
-<!-- /wp:heading -->
-
-<!-- wp:paragraph {"style":{"spacing":{"margin":{"bottom":"var:preset|spacing|10","top":"var:preset|spacing|30"}}}} -->
-<p style="margin-top:var(--wp--preset--spacing--30);margin-bottom:var(--wp--preset--spacing--10)"><code>active_installs</code> (single)</p>
-<!-- /wp:paragraph -->
-
-<!-- wp:shortcode -->
-[eps slug="easy-plugin-stats" field="active_installs"]
-<!-- /wp:shortcode -->
-
-<!-- wp:paragraph {"style":{"spacing":{"margin":{"bottom":"var:preset|spacing|10","top":"var:preset|spacing|30"}}}} -->
-<p style="margin-top:var(--wp--preset--spacing--30);margin-bottom:var(--wp--preset--spacing--10)"><code>active_installs</code> (aggregate)</p>
-<!-- /wp:paragraph -->
-
-<!-- wp:shortcode -->
-[eps type="aggregate" slug="easy-plugin-stats icon-block" field="active_installs"]
-<!-- /wp:shortcode -->
-
-<!-- wp:paragraph {"style":{"spacing":{"margin":{"bottom":"var:preset|spacing|10","top":"var:preset|spacing|30"}}}} -->
-<p style="margin-top:var(--wp--preset--spacing--30);margin-bottom:var(--wp--preset--spacing--10)"><code>downloaded</code></p>
-<!-- /wp:paragraph -->
-
-<!-- wp:shortcode -->
-[eps slug="easy-plugin-stats" field="downloaded"]
-<!-- /wp:shortcode -->
-
-<!-- wp:paragraph {"style":{"spacing":{"margin":{"bottom":"var:preset|spacing|10","top":"var:preset|spacing|30"}}}} -->
-<p style="margin-top:var(--wp--preset--spacing--30);margin-bottom:var(--wp--preset--spacing--10)"><code>version</code></p>
-<!-- /wp:paragraph -->
-
-<!-- wp:shortcode -->
-[eps slug="easy-plugin-stats" field="version"]
-<!-- /wp:shortcode -->
-
-<!-- wp:spacer -->
-<div style="height:100px" aria-hidden="true" class="wp-block-spacer"></div>
 <!-- /wp:spacer -->]]></content:encoded>
 		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
 		<wp:post_id>6</wp:post_id>
