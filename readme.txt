@@ -19,7 +19,7 @@ This plugin was designed for developers with plugins in the WordPress.org reposi
 
 === Available Stats === 
 
-You can display nearly all of the fields returned by the WordPress.org Plugins API, as well as a few extra options. There are currently 28 to choose from.
+Nearly all of the fields returned by the WordPress.org Plugins API are available, as well as a few extra options. There are currently 28 to choose from.
 
 **Single Stats**
 
@@ -53,8 +53,6 @@ You can display nearly all of the fields returned by the WordPress.org Plugins A
 * FAQ (Shortcode only)
 
 **Aggregate Stats**
-
-You can display aggregate stats from multiple plugins using two supported fields.
 
 * Active installs
 * Times downloaded
