@@ -1,42 +1,42 @@
-## Welcome to Easy Plugin Stats
+## Easy Plugin Stats
 
-**Disclaimer:** This plugin is geared towards developers with plugins in the WordPress.org repository and anyone else that wants to easily display information about a plugin that is in the repository. Don't fit this criteria? Then this plugin will probably not be of much use to you. 
+![Easy Plugin Stats](https://github.com/ndiego/easy-plugin-stats/blob/main/_wordpress-org/banner-1544x500.png)
 
-This plugin was designed to be as simple as possible, while still being very powerful. There is no settings page, just one shortcode and TinyMCE shortcode interface to help you generate codes with ease. You can display stats from a single plugin, or aggregate stats from multiple plugins. Check out the video below for a quick overview.
+[![Active Installs](https://img.shields.io/wordpress/plugin/installs/easy-plugin-stats?logo=wordpress&logoColor=%23fff&label=Active%20Installs&labelColor=%23262626&color=%23262626)](https://wordpress.org/plugins/easy-plugin-stats/) [![Playground Demo Link](https://img.shields.io/wordpress/plugin/v/easy-plugin-stats?logo=wordpress&logoColor=%23fff&label=Playground%20Demo&labelColor=%233858e9&color=%233858e9)](https://playground.wordpress.net/?blueprint-url=https://raw.githubusercontent.com/ndiego/easy-plugin-stats/main/_playground/blueprint.json)
 
-https://www.youtube.com/watch?v=zGFIlgcKS-s
+Easily display stats associated with plugins hosted on WordPress.org, such as the number of downloads, active installations, star rating, and more.
 
 ### Available Fields
 
 You can display any of the fields returned by the WordPress.org plugins API, as well as a few extra options. There are currently 28 options.
 
-* Active Installs
-* Times Downloaded
-* Plugin Name
-* Plugin Slug
+* Active installs
+* Times downloaded
+* Plugin name
+* Plugin slug
 * Version
 * Author
-* Author Profile Link
+* Author profile link
 * Contributors
 * Requires
 * Tested
+* Compatibility
 * Rating out of 100
 * Rating out of 5
-* Star Rating
-* Number of Reviews
-* Last Updated
-* Date Added
-* Plugin Homepage Link
-* Short Description
+* Star rating
+* Number of reviews
+* Last updated
+* Date added
+* Plugin homepage link
 * Description
 * Installation
 * Screenshots
-* Change Log
+* Changelog
 * FAQ
-* Download Link
-* Support Link
+* Download link
+* Support link
 * Tags
-* Donate Link
+* Donate link
 
 You can also display aggregate stats from multiple plugins. There are currently two supported aggregate fields.
 
@@ -48,15 +48,6 @@ If you have questions or would like to request additional features please let me
 #### What Easy Plugin Stats Doesn’t Do
 
 If you are looking for download charts/graphs, rating graphic breakdowns, etc. you will be disappointed. With the exception of the Star Rating option, this plugin basically just returns the raw data from the WordPress.org API. Styling is up to you. 
-
-#### Support This Plugin
-
-There are a few ways you can help support the development of this plugin:
-
-1. Rate this plugin on WordPress.org, preferably if you like it :)
-1. If you spot an error or bug, please let us know in the support forums. The issue will be diagnosed an a new release push out as soon as possible.
-1. [Donate](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5BQQ26BHVMEYW). Time is money, and contributions from users like you really help us dedicate more hours to the continual development and support of this plugin.
-
 
 ## Installation
 
@@ -70,7 +61,7 @@ There are a few ways you can help support the development of this plugin:
 
 ## Frequently Asked Questions
 
-#### How do I add a plugin stat shordcode?
+#### How do I add a plugin stat shortcode?
 
 **Standard Method**
 
@@ -145,7 +136,3 @@ The available stat fields for "aggregate" are:
 
 If you have additional questions or would like to request additional features please let me know in the plugin [support forum](https://wordpress.org/support/plugin/easy-plugin-stats).
 
-## Changelog
-
-#### 1.0.0
-* Initial Release
