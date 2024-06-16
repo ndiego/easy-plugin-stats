@@ -17,11 +17,11 @@ Easily display stats associated with plugins hosted on WordPress.org, such as th
 
 This plugin was designed for developers with plugins in the WordPress.org repository (and anyone else) who want to display their plugin information on an external site. It uses the WordPress Plugins API to fetch the raw data, which can then be inserted into a page or post using a custom block, a Button block variation, or a shortcode. You can display stats from a single plugin, or aggregate stats from multiple plugins.
 
-=== Available Stats === 
+=== Available stats === 
 
 Nearly all of the fields returned by the WordPress.org Plugins API are available, as well as a few extra options. There are currently 28 to choose from.
 
-**Single Stats**
+**Single stats**
 
 * Active installs
 * Times downloaded
@@ -52,7 +52,7 @@ Nearly all of the fields returned by the WordPress.org Plugins API are available
 * Changelog (Shortcode only)
 * FAQ (Shortcode only)
 
-**Aggregate Stats**
+**Aggregate stats**
 
 Display combined stats from multiple plugins.
 
