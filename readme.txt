@@ -54,6 +54,8 @@ Nearly all of the fields returned by the WordPress.org Plugins API are available
 
 **Aggregate Stats**
 
+Display combined stats from multiple plugins.
+
 * Active installs
 * Times downloaded
 
