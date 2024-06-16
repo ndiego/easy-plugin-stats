@@ -270,10 +270,10 @@ export default function Edit( props ) {
 							tokenizeOnSpace={ true }
 							__experimentalShowHowTo={ false }
 						/>
-						<p className='components-base-control__help'>
-							{ __( 
-								'The plugin slug on WordPress.org. For aggregate stats, separate multiple slugs with commas, spaces, or the Enter key.', 
-								'easy-plugin-stats' 
+						<p className="components-base-control__help">
+							{ __(
+								'The plugin slug on WordPress.org. For aggregate stats, separate multiple slugs with commas, spaces, or the Enter key.',
+								'easy-plugin-stats'
 							) }
 						</p>
 						{ error && (
@@ -358,7 +358,7 @@ export default function Edit( props ) {
 				</ToolsPanel>
 			</InspectorControls>
 			<p { ...blockProps }>
-				<span class="wp-block-outermost-plugin-stat__container">
+				<span className="wp-block-outermost-plugin-stat__container">
 					{ ( isSelected || prefix ) && (
 						<RichText
 							identifier="prefix"
@@ -376,7 +376,10 @@ export default function Edit( props ) {
 							tagName="span"
 						/>
 					) }
-					<span className="stat-container" onClick={ preventLinkClicks }>
+					<span
+						className="stat-container"
+						onClick={ preventLinkClicks }
+					>
 						{ isLoading ? (
 							<Spinner />
 						) : (
@@ -389,7 +392,9 @@ export default function Edit( props ) {
 							allowedFormats={ ALLOWED_FORMATS }
 							className="wp-block-post-terms__suffix"
 							aria-label={ __( 'Suffix', 'easy-plugin-stats' ) }
-							placeholder={ ' ' + __( 'Suffix', 'easy-plugin-stats' ) }
+							placeholder={
+								' ' + __( 'Suffix', 'easy-plugin-stats' )
+							}
 							value={ suffix }
 							style={ { color: suffixColor || 'currentColor' } }
 							onChange={ ( value ) =>
