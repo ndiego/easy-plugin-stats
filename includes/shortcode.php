@@ -16,6 +16,12 @@ namespace EasyPluginStats;
  */
 function render_shortcode( $atts ) {
 
+    // Prevent shortcodes from firing in the Editor. 
+    // This is a known issue, see https://github.com/WordPress/gutenberg/issues/45732.
+    if ( is_admin() ) {
+        return;
+    }
+
     $atts = shortcode_atts( array(
         'type'		 => 'single',
         'slug' 	  	 => '',
