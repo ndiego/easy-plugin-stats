@@ -16,91 +16,91 @@ namespace EasyPluginStats;
  */
 function render_shortcode( $atts ) {
 
-    // Prevent shortcodes from firing in the Editor. 
-    // This is a known issue, see https://github.com/WordPress/gutenberg/issues/45732.
-    if ( is_admin() ) {
-        return;
-    }
+	// Prevent shortcodes from firing in the Editor. 
+	// This is a known issue, see https://github.com/WordPress/gutenberg/issues/45732.
+	if ( is_admin() ) {
+		return;
+	}
 
-    $atts = shortcode_atts( array(
-        'type'		 => 'single',
-        'slug' 	  	 => '',
-        'field'      => 'active_installs',
-        'before'	 => '',
-        'after'		 => '',
-        'cache_time' => 43200,
-    ), $atts );
+	$atts = shortcode_atts( array(
+		'type'		 => 'single',
+		'slug' 	  	 => '',
+		'field'      => 'active_installs',
+		'before'	 => '',
+		'after'		 => '',
+		'cache_time' => 43200,
+	), $atts );
 
-    // The list of currently allowed fields.
-    $allowed_fields = array(
-        'single' => array(
-            'active_installs',
-            'downloaded',
-            'name',
-            'slug',
-            'version',
-            'author',
-            'contributors',
-            'tags',
-            'requires',
-            'tested',
-            'rating',
-            'five_rating',
-            'star_rating',
-            'num_ratings',
-            'last_updated',
-            'added',
-            'homepage', // For backward compatibility.
-            'homepage_link',
-            'download_link',
-            'live_preview_link',
-            'support_link',
-            'reviews_link',
-            'author_profile',
-            'donate_link',
-            'description',
-            'installation',
-            'screenshots',
-            'changelog',
-            'faq',
-        ),
-        'aggregate' => array(
-            'active_installs',
-            'downloaded'
-        )
-    );
+	// The list of currently allowed fields.
+	$allowed_fields = array(
+		'single' => array(
+			'active_installs',
+			'downloaded',
+			'name',
+			'slug',
+			'version',
+			'author',
+			'contributors',
+			'tags',
+			'requires',
+			'tested',
+			'rating',
+			'five_rating',
+			'star_rating',
+			'num_ratings',
+			'last_updated',
+			'added',
+			'homepage', // For backward compatibility.
+			'homepage_link',
+			'download_link',
+			'live_preview_link',
+			'support_link',
+			'reviews_link',
+			'author_profile',
+			'donate_link',
+			'description',
+			'installation',
+			'screenshots',
+			'changelog',
+			'faq',
+		),
+		'aggregate' => array(
+			'active_installs',
+			'downloaded'
+		)
+	);
 
-    // Return early is an incorrect field is passed.
-    if ( ! in_array( $atts['field'], $allowed_fields[ $atts['type'] ] ) ) {
-        return;
-    }
+	// Return early is an incorrect field is passed.
+	if ( ! in_array( $atts['field'], $allowed_fields[ $atts['type'] ] ) ) {
+		return;
+	}
 
-    if ( $atts['type'] == 'single' ) {
-        $plugin_data = get_remote_plugin_data( $atts['slug'], $atts['cache_time'] );
+	if ( $atts['type'] == 'single' ) {
+		$plugin_data = get_remote_plugin_data( $atts['slug'], $atts['cache_time'] );
 
-        $output  = html_entity_decode( $atts['before'] );
-        $output .= get_field_output( $atts, $plugin_data, true, false );
-        $output .= html_entity_decode( $atts['after'] );
+		$output  = html_entity_decode( $atts['before'] );
+		$output .= get_field_output( $atts, $plugin_data, true, false );
+		$output .= html_entity_decode( $atts['after'] );
 
-        return $output;
+		return $output;
 
-    } else if ( $atts['type'] == 'aggregate' ) {
-        $field_data    = array();
-        $cleaned_slugs = preg_replace( '/[^\w\-\s]/', ' ', $atts['slug'] ); // Remove all characters that are not allowed.
-        $cleaned_slugs = preg_replace( '/\s\s+/', ' ', $cleaned_slugs ); // Trim all excess whitepace.
-        $slugs         = explode( ' ', $cleaned_slugs );
+	} else if ( $atts['type'] == 'aggregate' ) {
+		$field_data    = array();
+		$cleaned_slugs = preg_replace( '/[^\w\-\s]/', ' ', $atts['slug'] ); // Remove all characters that are not allowed.
+		$cleaned_slugs = preg_replace( '/\s\s+/', ' ', $cleaned_slugs ); // Trim all excess whitepace.
+		$slugs         = explode( ' ', $cleaned_slugs );
 
-        foreach ( $slugs as $slug ) {
-            $plugin_data  = get_remote_plugin_data( $slug, $atts['cache_time'] );
-            $field_data[] = get_field_output( $atts, $plugin_data, false, false );
-        }
+		foreach ( $slugs as $slug ) {
+			$plugin_data  = get_remote_plugin_data( $slug, $atts['cache_time'] );
+			$field_data[] = get_field_output( $atts, $plugin_data, false, false );
+		}
 
-        $output  = html_entity_decode( $atts['before'] );
-        $output .= format_numbers( array_sum( $field_data ) );
-        $output .= html_entity_decode( $atts['after'] );
+		$output  = html_entity_decode( $atts['before'] );
+		$output .= format_numbers( array_sum( $field_data ) );
+		$output .= html_entity_decode( $atts['after'] );
 
-        return $output;
-    }
+		return $output;
+	}
 }
 add_shortcode( 'eps', __NAMESPACE__ . '\render_shortcode' );
 

@@ -18,26 +18,26 @@ namespace EasyPluginStats;
  * @return array|null   An array containing plugin data if retrieved successfully, or null if retrieval fails.
  */
 function get_remote_plugin_data( $slug, $cache = 43200 ) {
-    // Attempt to get the plugin data from the transient.
-    $plugin_data = get_transient( 'eps_' . $slug );
+	// Attempt to get the plugin data from the transient.
+	$plugin_data = get_transient( 'eps_' . $slug );
 
-    // If no transient, fetch data from WordPress.org.
-    if ( false === $plugin_data ) {
-        $response = wp_remote_get( 'https://api.wordpress.org/plugins/info/1.0/' . $slug . '.json?fields=active_installs' );
+	// If no transient, fetch data from WordPress.org.
+	if ( false === $plugin_data ) {
+		$response = wp_remote_get( 'https://api.wordpress.org/plugins/info/1.0/' . $slug . '.json?fields=active_installs' );
 
-        if ( ! is_wp_error( $response ) ) {
-            $plugin_data = json_decode( wp_remote_retrieve_body( $response ), true );
+		if ( ! is_wp_error( $response ) ) {
+			$plugin_data = json_decode( wp_remote_retrieve_body( $response ), true );
 
-            // If the response body is not empty, cache the data.
-            if ( ! empty( $plugin_data ) ) {
-                set_transient( 'eps_' . esc_attr( $slug ), $plugin_data, is_int( $cache ) ? $cache : 43200 );
-            } else {
-                return null;
-            }
-        } else {
-            return null;
-        }
-    }
+			// If the response body is not empty, cache the data.
+			if ( ! empty( $plugin_data ) ) {
+				set_transient( 'eps_' . esc_attr( $slug ), $plugin_data, is_int( $cache ) ? $cache : 43200 );
+			} else {
+				return null;
+			}
+		} else {
+			return null;
+		}
+	}
 
-    return $plugin_data;
+	return $plugin_data;
 }
