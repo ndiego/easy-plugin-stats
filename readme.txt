@@ -169,6 +169,7 @@ The available stat fields for `aggregate` are:
 
 * Add the Plugin Stat block.
 * Add the Plugin Button block variation for the Button block.
+* Add Playground blueprint for live plugin preview.
 
 **Changed**
 
