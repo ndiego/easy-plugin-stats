@@ -173,6 +173,7 @@ The available stat fields for `aggregate` are:
 
 **Changed**
 
+* The minimum required version is now WordPress 6.5. The plugin now uses the Block Bindings API, which was introduced in 6.5.
 * The TinyMCE plugin has been removed. Shortcodes still work but have to be created manually. 
 * Star ratings are now SVGs, and the Dashicons have been removed.
 
