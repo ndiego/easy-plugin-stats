@@ -1,7 +1,7 @@
 === Easy Plugin Stats ===
 Author URI:        https://www.nickdiego.com/
 Contributors:      ndiego, outermostdesign
-Tags:              plugin, stats, statistics, active installs, downloads
+Tags:              plugin stats, active installs, downloads
 Requires at least: 6.5
 Tested up to:      6.6
 Requires PHP:      8.0
