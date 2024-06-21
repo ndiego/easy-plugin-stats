@@ -59,7 +59,7 @@ Display combined stats from multiple plugins.
 * Active installs
 * Times downloaded
 
-=== Stay Connected ===
+=== Stay connected ===
 
 * [View on GitHub](https://github.com/ndiego/easy-plugin-stats)
 * [Visit plugin project page](https://nickdiego.com/projects/easy-plugin-stats/)
