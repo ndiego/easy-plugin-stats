@@ -2,7 +2,7 @@
 
 ![Easy Plugin Stats](https://github.com/ndiego/easy-plugin-stats/blob/main/_wordpress-org/banner-1544x500.png)
 
-[![Active Installs](https://img.shields.io/wordpress/plugin/installs/easy-plugin-stats?logo=wordpress&logoColor=%23fff&label=Active%20Installs&labelColor=%231e1e1e&color=%231e1e1e)](https://wordpress.org/plugins/easy-plugin-stats/) [![Playground Demo Link](https://img.shields.io/wordpress/plugin/v/easy-plugin-stats?logo=wordpress&logoColor=%23fff&label=Playground%20Demo&labelColor=%233858e9&color=%233858e9)](https://playground.wordpress.net/?blueprint-url=https://raw.githubusercontent.com/ndiego/easy-plugin-stats/main/_playground/blueprint-github.json)
+[![Active Installs](https://img.shields.io/wordpress/plugin/installs/easy-plugin-stats?logo=wordpress&logoColor=%23fff&label=Active%20Installs&labelColor=%2323282D&color=%2323282D)](https://wordpress.org/plugins/easy-plugin-stats/) [![Playground Demo Link](https://img.shields.io/wordpress/plugin/v/easy-plugin-stats?logo=wordpress&logoColor=%23fff&label=Playground%20Demo&labelColor=%233858e9&color=%233858e9)](https://playground.wordpress.net/?blueprint-url=https://raw.githubusercontent.com/ndiego/easy-plugin-stats/main/_playground/blueprint-github.json)
 
 Easily display stats associated with plugins hosted on WordPress.org, such as the number of downloads, active installations, star rating, and more.
 
