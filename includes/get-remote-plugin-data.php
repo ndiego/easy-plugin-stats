@@ -18,24 +18,26 @@ namespace EasyPluginStats;
  * @return array|null   An array containing plugin data if retrieved successfully, or null if retrieval fails.
  */
 function get_remote_plugin_data( $slug, $cache = 43200 ) {
+	$transient_key = 'eps_' . esc_attr( $slug );
+
 	// Attempt to get the plugin data from the transient.
-	$plugin_data = get_transient( 'eps_' . $slug );
+	$plugin_data = get_transient( $transient_key );
 
 	// If no transient, fetch data from WordPress.org.
 	if ( false === $plugin_data ) {
-		$response = wp_remote_get( 'https://api.wordpress.org/plugins/info/1.0/' . $slug . '.json?fields=active_installs' );
+		$response = wp_remote_get( 'https://api.wordpress.org/plugins/info/1.0/' . esc_attr( $slug ) . '.json?fields=active_installs' );
 
 		if ( ! is_wp_error( $response ) ) {
 			$plugin_data = json_decode( wp_remote_retrieve_body( $response ), true );
 
 			// If the response body is not empty, cache the data.
 			if ( ! empty( $plugin_data ) ) {
-				set_transient( 'eps_' . esc_attr( $slug ), $plugin_data, is_int( $cache ) ? $cache : 43200 );
+				set_transient( $transient_key, $plugin_data, is_int( $cache ) ? $cache : 43200 );
 			} else {
-				return null;
+				$plugin_data = null;
 			}
 		} else {
-			return null;
+			$plugin_data = null;
 		}
 	}
 
