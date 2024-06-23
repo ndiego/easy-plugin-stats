@@ -17,21 +17,14 @@ namespace EasyPluginStats;
  * @return string|null       The field output generated based on the plugin data, or null if plugin slugs are not provided.
  */
 function bindings_callback( $source_args ) {
-
-	// Bail if there no plugin slugs.
+	
+	// Bail if there is no plugin slug.
 	if ( ! ( $source_args['slug'] ?? null ) ) {
 		return null;
 	}
 
-	$slug  = $source_args['slug'];
-	$cache = $source_args['cache'] ?? null;
+	// Fetch the plugin data.
+	$plugin_data = get_remote_plugin_data( $source_args['slug'], $source_args['cache'] ?? null );
 
-	if ( $slug ) {
-		// Fetch the plugin data.
-		$plugin_data = get_remote_plugin_data( $slug, $cache );
-
-		return get_field_output( $source_args, $plugin_data, true, false );
-	}
-
-	return null;
+	return get_field_output( $source_args, $plugin_data, true, false );
 }
