@@ -2,6 +2,7 @@
  * WordPress dependencies
  */
 import { addFilter } from '@wordpress/hooks';
+
 /**
  * Internal dependencies
  */
