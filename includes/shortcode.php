@@ -70,12 +70,15 @@ function render_shortcode( $atts ) {
 		)
 	);
 
+	// Confirm that the provided field type exists. Default to single.
+	$field_type = array_key_exists( $atts['type'], $allowed_fields ) ? $atts['type'] : 'single';
+
 	// Return early is an incorrect field is passed.
-	if ( ! in_array( $atts['field'], $allowed_fields[ $atts['type'] ] ) ) {
+	if ( ! in_array( $atts['field'], $allowed_fields[ $field_type ] ) ) {
 		return;
 	}
 
-	if ( $atts['type'] == 'single' ) {
+	if ( $field_type == 'single' ) {
 		$plugin_data = get_remote_plugin_data( $atts['slug'], $atts['cache_time'] );
 
 		$output  = html_entity_decode( $atts['before'] );
@@ -84,7 +87,7 @@ function render_shortcode( $atts ) {
 
 		return $output;
 
-	} else if ( $atts['type'] == 'aggregate' ) {
+	} else if ( $field_type == 'aggregate' ) {
 		$field_data    = array();
 		$cleaned_slugs = preg_replace( '/[^\w\-\s]/', ' ', $atts['slug'] ); // Remove all characters that are not allowed.
 		$cleaned_slugs = preg_replace( '/\s\s+/', ' ', $cleaned_slugs ); // Trim all excess whitepace.
