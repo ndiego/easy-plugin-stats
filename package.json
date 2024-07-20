@@ -1,6 +1,6 @@
 {
   "name": "easy-plugin-stats",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Easily display stats associated with plugins hosted on WordPress.org.",
   "author": "Nick Diego",
   "main": "build/index.js",

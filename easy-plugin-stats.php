@@ -4,7 +4,7 @@
  * Description:       Easily display stats associated with plugins hosted on WordPress.org.
  * Requires at least: 6.5
  * Requires PHP:      8.0
- * Version:           2.0.0
+ * Version:           2.0.1
  * Author:            Nick Diego
  * Author URI:        https://www.nickdiego.com
  * License:           GPL-2.0-or-later

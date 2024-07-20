@@ -5,7 +5,7 @@ Tags:              plugin stats, active installs, downloads
 Requires at least: 6.5
 Tested up to:      6.6
 Requires PHP:      8.0
-Stable tag:        2.0.0
+Stable tag:        2.0.1
 License:           GPL-2.0-or-later
 License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -162,6 +162,12 @@ The available stat fields for `aggregate` are:
 3. A screenshot of the shortcode implementation in the Editor.
 
 == Changelog ==
+
+= 2.0.1 =
+
+**Fixed**
+
+* Fix bug where an incorrectly set field type in the `eps` shortcode generated a critical error on the front end.
 
 = 2.0.0 =
 
