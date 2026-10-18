@@ -10,6 +10,18 @@ import { getSettings, format } from '@wordpress/date';
  */
 import { fields, linkedFields, fieldDefaults } from './fields';
 
+/**
+ * Only allow http(s) URLs in href attributes. Anything else (javascript:,
+ * data:, etc.) is replaced with an empty string.
+ *
+ * @param {*} url The candidate URL.
+ * @return {string} A safe URL or an empty string.
+ */
+function safeUrl( url ) {
+	const candidate = String( url ?? '' ).trim();
+	return /^https?:\/\//i.test( candidate ) ? candidate : '';
+}
+
 export function getFieldOutput( attributes, fetchPluginData, error ) {
 	const { field, slugs, linkText } = attributes;
 	const isFieldValid = fields.some(
@@ -61,39 +73,79 @@ export function getFieldOutput( attributes, fetchPluginData, error ) {
 	// If pluginData contains a single item, retrieve the value from the specified field.
 	const value = pluginData[ Object.keys( pluginData )[ 0 ] ][ setField ];
 
-	// If the field is 'author', return the value as HTML.
+	// The 'author' field is an HTML anchor supplied by the WordPress.org API.
+	// Pull out the href and text and rebuild the link as an element so that
+	// nothing from the API is injected as raw HTML.
 	if ( setField === 'author' ) {
-		return <span dangerouslySetInnerHTML={ { __html: value } } />;
+		const author = String( value ?? '' );
+		const match = author.match(
+			/<a[^>]*href=["']([^"']*)["'][^>]*>([^<]*)<\/a>/i
+		);
+		if ( match ) {
+			return (
+				<span>
+					<a
+						href={ safeUrl( match[ 1 ] ) }
+						target="_blank"
+						rel="noreferrer"
+					>
+						{ match[ 2 ] }
+					</a>
+				</span>
+			);
+		}
+		return <span>{ author.replace( /<[^>]*>/g, '' ) }</span>;
 	}
 
 	if ( setField === 'contributors' ) {
-		let output = '';
+		const entries = Object.entries( value || {} );
 
-		if ( Object.keys( value ).length > 0 ) {
-			output = Object.entries( value )
-				.map( ( [ contributor, link ] ) => {
-					return `<a href="${ link }" target="_blank">${ contributor }</a>`;
-				} )
-				.join( ', ' );
-		} else {
-			output = __( 'No contributors', 'easy-plugin-stats' );
+		if ( entries.length === 0 ) {
+			return (
+				<span>{ __( 'No contributors', 'easy-plugin-stats' ) }</span>
+			);
 		}
 
-		return <span dangerouslySetInnerHTML={ { __html: output } } />;
+		return (
+			<span>
+				{ entries.map( ( [ contributor, link ], index ) => (
+					<span key={ contributor }>
+						{ index > 0 && ', ' }
+						<a
+							href={ safeUrl( link ) }
+							target="_blank"
+							rel="noreferrer"
+						>
+							{ contributor }
+						</a>
+					</span>
+				) ) }
+			</span>
+		);
 	}
 
 	if ( setField === 'tags' ) {
-		let output = '';
+		const entries = Object.entries( value || {} );
 
-		if ( Object.keys( value ).length > 0 ) {
-			output = Object.entries( value )
-				.map( ( [ slug, name ] ) => {
-					return `<a href="https://wordpress.org/plugins/tags/${ slug }" target="_blank">${ name }</a>`;
-				} )
-				.join( ', ' );
-		}
 		// @TODO add alternative display options (chit)
-		return <span dangerouslySetInnerHTML={ { __html: output } } />;
+		return (
+			<span>
+				{ entries.map( ( [ slug, name ], index ) => (
+					<span key={ slug }>
+						{ index > 0 && ', ' }
+						<a
+							href={ `https://wordpress.org/plugins/tags/${ encodeURIComponent(
+								slug
+							) }` }
+							target="_blank"
+							rel="noreferrer"
+						>
+							{ name }
+						</a>
+					</span>
+				) ) }
+			</span>
+		);
 	}
 
 	if ( setField === 'five_rating' ) {
@@ -152,9 +204,15 @@ export function getFieldOutput( attributes, fetchPluginData, error ) {
 			( fieldObj ) => fieldObj.value === setField
 		);
 		const text = linkText || linkObject.label.replace( ' Link', '' );
-		const output = `<a href="${ value }" target="_blank">${ text }</a>`;
 
-		return <span dangerouslySetInnerHTML={ { __html: output } } />;
+		// linkText is a block attribute; render it as text, never as HTML.
+		return (
+			<span>
+				<a href={ safeUrl( value ) } target="_blank" rel="noreferrer">
+					{ text }
+				</a>
+			</span>
+		);
 	}
 
 	// Format the value with commas if it's greater than 1000,

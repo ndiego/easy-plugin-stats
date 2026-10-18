@@ -3,9 +3,9 @@ Author URI:        https://www.nickdiego.com/
 Contributors:      ndiego, outermostdesign
 Tags:              plugin stats, active installs, downloads
 Requires at least: 6.5
-Tested up to:      6.6
+Tested up to:      6.8
 Requires PHP:      8.0
-Stable tag:        2.0.1
+Stable tag:        2.0.2
 License:           GPL-2.0-or-later
 License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -162,6 +162,18 @@ The available stat fields for `aggregate` are:
 3. A screenshot of the shortcode implementation in the Editor.
 
 == Changelog ==
+
+= 2.0.2 =
+
+**Security**
+
+* Fix a stored cross-site scripting vulnerability in the `eps` shortcode (CVE-2025-7652). The `before` and `after` attributes were decoded and printed without escaping; they are now run through `wp_kses_post()`.
+* Validate and escape every shortcode attribute, block attribute, and WordPress.org API value before output. Plugin slugs are sanitized, field names are checked against an allowlist, the `prefixColor`/`suffixColor` block attributes are validated as CSS, API-supplied sections (description, installation, screenshots, changelog, FAQ) are filtered with `wp_kses_post()`, and the editor no longer renders the `linkText` attribute or API values as raw HTML.
+
+**Fixed**
+
+* The shortcode `cache_time` attribute is now honored (it was always falling back to the default).
+* Invalid or missing dates no longer cause a fatal error for the `last_updated` field.
 
 = 2.0.1 =
 
