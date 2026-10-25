@@ -5,7 +5,7 @@ Tags:              plugin stats, active installs, downloads
 Requires at least: 6.5
 Tested up to:      6.8
 Requires PHP:      8.0
-Stable tag:        2.0.2
+Stable tag:        2.0.3
 License:           GPL-2.0-or-later
 License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -162,6 +162,14 @@ The available stat fields for `aggregate` are:
 3. A screenshot of the shortcode implementation in the Editor.
 
 == Changelog ==
+
+= 2.0.3 =
+
+**Fixed**
+
+* A failed request to the WordPress.org Plugins API no longer drops the plugin from the output. Every successful response is kept as a long-lived backup (30 days, filterable with `eps_backup_cache_time`), which is returned when a request fails. Aggregate totals were previously silently reduced to the sum of only the plugins whose request happened to succeed.
+* Failed API requests are no longer cached, so the next page load retries the API.
+* The API request timeout is now 15 seconds (filterable with `eps_request_timeout`) instead of the WordPress default of 5.
 
 = 2.0.2 =
 
