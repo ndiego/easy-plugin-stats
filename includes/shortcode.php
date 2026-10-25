@@ -11,96 +11,69 @@ namespace EasyPluginStats;
  * Shortcode: Get plugin data from wp.org
  *
  * @since 1.0.0
+ * @since 2.0.2 All attributes are sanitized on input and escaped on output.
  *
  * @param array $atts An array shortcode attributes.
  */
 function render_shortcode( $atts ) {
 
-	// Prevent shortcodes from firing in the Editor. 
+	// Prevent shortcodes from firing in the Editor.
 	// This is a known issue, see https://github.com/WordPress/gutenberg/issues/45732.
 	if ( is_admin() ) {
 		return;
 	}
 
 	$atts = shortcode_atts( array(
-		'type'		 => 'single',
-		'slug' 	  	 => '',
+		'type'       => 'single',
+		'slug'       => '',
 		'field'      => 'active_installs',
-		'before'	 => '',
-		'after'		 => '',
+		'before'     => '',
+		'after'      => '',
 		'cache_time' => 43200,
-	), $atts );
-
-	// The list of currently allowed fields.
-	$allowed_fields = array(
-		'single' => array(
-			'active_installs',
-			'downloaded',
-			'name',
-			'slug',
-			'version',
-			'author',
-			'contributors',
-			'tags',
-			'requires',
-			'tested',
-			'rating',
-			'five_rating',
-			'star_rating',
-			'num_ratings',
-			'last_updated',
-			'added',
-			'homepage', // For backward compatibility.
-			'homepage_link',
-			'download_link',
-			'live_preview_link',
-			'support_link',
-			'reviews_link',
-			'author_profile',
-			'donate_link',
-			'description',
-			'installation',
-			'screenshots',
-			'changelog',
-			'faq',
-		),
-		'aggregate' => array(
-			'active_installs',
-			'downloaded'
-		)
-	);
+	), $atts, 'eps' );
 
 	// Confirm that the provided field type exists. Default to single.
-	$field_type = array_key_exists( $atts['type'], $allowed_fields ) ? $atts['type'] : 'single';
+	$field_type = array_key_exists( $atts['type'], get_allowed_fields() ) ? $atts['type'] : 'single';
 
-	// Return early is an incorrect field is passed.
-	if ( ! in_array( $atts['field'], $allowed_fields[ $field_type ] ) ) {
+	// Return early if an incorrect field is passed.
+	if ( ! is_allowed_field( $atts['field'], $field_type ) ) {
 		return;
 	}
 
-	if ( $field_type == 'single' ) {
-		$plugin_data = get_remote_plugin_data( $atts['slug'], $atts['cache_time'] );
+	$cache_time = sanitize_cache_time( $atts['cache_time'] );
 
-		$output  = html_entity_decode( $atts['before'] );
-		$output .= get_field_output( $atts, $plugin_data, true, false );
-		$output .= html_entity_decode( $atts['after'] );
+	// The before/after attributes accept limited HTML. Shortcode attributes
+	// cannot contain double quotes, so authors entity-encode markup; decode it
+	// and then run it through the post allowlist so that no script, event
+	// handler, or other active content can be injected.
+	$before = wp_kses_post( html_entity_decode( (string) $atts['before'], ENT_QUOTES, 'UTF-8' ) );
+	$after  = wp_kses_post( html_entity_decode( (string) $atts['after'], ENT_QUOTES, 'UTF-8' ) );
+
+	if ( 'single' === $field_type ) {
+		$plugin_data = get_remote_plugin_data( $atts['slug'], $cache_time );
+
+		$output  = $before;
+		$output .= (string) get_field_output( $atts, $plugin_data, true, false );
+		$output .= $after;
 
 		return $output;
 
-	} else if ( $field_type == 'aggregate' ) {
-		$field_data    = array();
-		$cleaned_slugs = preg_replace( '/[^\w\-\s]/', ' ', $atts['slug'] ); // Remove all characters that are not allowed.
-		$cleaned_slugs = preg_replace( '/\s\s+/', ' ', $cleaned_slugs ); // Trim all excess whitepace.
-		$slugs         = explode( ' ', $cleaned_slugs );
+	} elseif ( 'aggregate' === $field_type ) {
+		$field_data = array();
+		$slugs      = preg_split( '/\s+/', (string) $atts['slug'], -1, PREG_SPLIT_NO_EMPTY );
 
 		foreach ( $slugs as $slug ) {
-			$plugin_data  = get_remote_plugin_data( $slug, $atts['cache_time'] );
-			$field_data[] = get_field_output( $atts, $plugin_data, false, false );
+			$slug = sanitize_plugin_slug( $slug );
+			if ( '' === $slug ) {
+				continue;
+			}
+			$plugin_data  = get_remote_plugin_data( $slug, $cache_time );
+			$field_data[] = (float) get_field_output( $atts, $plugin_data, false, false );
 		}
 
-		$output  = html_entity_decode( $atts['before'] );
+		$output  = $before;
 		$output .= format_numbers( array_sum( $field_data ) );
-		$output .= html_entity_decode( $atts['after'] );
+		$output .= $after;
 
 		return $output;
 	}
@@ -133,8 +106,8 @@ function render_shortcode_inline_styles() {
 			}
 		';
 
-		// Output the inline styles directly in the HTML head section.
-		echo '<style id="eps-shortcode-styles" type="text/css">' . $shortcode_css . '</style>';
+		// Output the inline styles directly in the HTML head section. The CSS is a static string defined above.
+		echo '<style id="eps-shortcode-styles">' . $shortcode_css . '</style>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 }
 add_action( 'wp_head', __NAMESPACE__ . '\render_shortcode_inline_styles' );
